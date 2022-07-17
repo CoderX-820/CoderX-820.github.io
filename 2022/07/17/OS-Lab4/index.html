@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录了OSLab4的一些学习心得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-Lab4">
+<meta property="og:url" content="http://example.com/2022/07/17/OS-Lab4/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="记录了OSLab4的一些学习心得">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/116723916b3da0dd4df9601f4d69f3e9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/b77fb78ef5ddbb6e32bd214d6d53c340.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/4ead8de0f9fcfe0ec44a66ced90d877e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/6362b59d3b50d7331309cd0b8f0b5b1e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d0adbe28df014c20bd4c8d7a04171beb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/681ed3bca76340449ab034513b02563a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e3bd09c97ec54b94b5e6c380f0fdfc82.png">
+<meta property="article:published_time" content="2022-07-17T09:43:00.000Z">
+<meta property="article:modified_time" content="2022-07-17T11:40:01.883Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/116723916b3da0dd4df9601f4d69f3e9.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>OS-Lab4 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS-Lab4"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-17 17:43" pubdate>
+          星期日, 七月 17日 2022, 5:43 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OS-Lab4</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="一-预备知识"><a href="#一-预备知识" class="headerlink" title="一.预备知识"></a>一.预备知识</h3><p>在前面三个Lab的实验中，我们成功的搭建起了操作系统的内核，建立了内存管理机制和进程调度机制。一般来说，进程是给用户使用的，而用户无法直接对系统内核进行存取。另一方面，进程与进程之间的虚拟地址互相独立，这使得两个进程之间的互相通信变得困难。但是，用户会在有些情况下需要使用只有内核才能进行的操作。为了解决这个问题，操作系统设计了系统调用。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/116723916b3da0dd4df9601f4d69f3e9.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>指导书上已有的知识，我在此不再赘述。在进行实验之前，我们需要稍微补习一点知识，主要是关于汇编函数方面的东西。这些知识，指导书或者其他地方都有，只不过比较零碎。我稍微聚集了一下这些知识，如果想要了解的更详细，可以深入了解。</p>
+<h4 id="1-汇编函数构造宏-include-x2F-asm-x2F-asm-h"><a href="#1-汇编函数构造宏-include-x2F-asm-x2F-asm-h" class="headerlink" title="1. 汇编函数构造宏(include&#x2F;asm&#x2F;asm.h)"></a>1. 汇编函数构造宏(include&#x2F;asm&#x2F;asm.h)</h4><p>为了方便的像C语言一样构造函数，我们的操作系统事先为我们提供了函数的宏，我们可以直接使用。这个宏的代码并非由本校人员开发，应当是较为通用的定义方式。文件中为我们提供了两种函数的宏，即叶函数（LEAF）和嵌套函数(NESTED)。</p>
+<blockquote>
+<p>我们把函数体中没有函数调用语句的函数称为叶函数，自然如果有函数调用语句的函数称为非叶函数。在MIPS 的调用规范中，进入函数体时会通过对栈指针做减法的方式为自身的局部变量、返回地址、调用函数的参数分配存储空间（叶函数没有后两者），在函数调用结束之后会对栈指针做加法来释放这部分空间，我们把这部分空间称为栈帧（Stack Frame）。</p>
+<p>——OS指导书</p>
+</blockquote>
+<p>下面是宏的具体实现定义。可以看到，函数定义无非是声明一个全局符号，给定一个标签用于跳转和返回。</p>
+<p>下面是文件中部分代码的引用。有些代码后面我没有写注释，是因为我自己也弄不太清楚，不敢乱讲，怕引起误会。如果有同学明白，希望可以给我讲讲。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#define LEAF(symbol)                            \</span><br>        .globl  symbol<span class="hljs-comment">;                         \声明&quot;symbol&quot;为全局变量</span><br>        <span class="hljs-meta">.align</span>  <span class="hljs-number">2</span><span class="hljs-comment">;                              \下一个数据的地址空间按字对齐</span><br>        .type   symbol,@function<span class="hljs-comment">;               \</span><br>        .ent    symbol,<span class="hljs-number">0</span><span class="hljs-comment">;                       \告诉汇编器&quot;symbol&quot;函数的起始点，用于调试</span><br><span class="hljs-symbol">        symbol:</span>         .frame  <span class="hljs-built_in">sp</span>,<span class="hljs-number">0</span>,<span class="hljs-built_in">ra</span>          提供一个名为<span class="hljs-string">&quot;symbol&quot;</span>的标签，将跳转到此处<br><br><span class="hljs-comment">#define NESTED(symbol, framesize, rpc)          \</span><br>        .globl  symbol<span class="hljs-comment">;                         \</span><br>        <span class="hljs-meta">.align</span>  <span class="hljs-number">2</span><span class="hljs-comment">;                              \</span><br>        .type   symbol,@function<span class="hljs-comment">;               \</span><br>        .ent    symbol,<span class="hljs-number">0</span><span class="hljs-comment">;                       \</span><br><span class="hljs-symbol">        symbol:</span>         .frame  <span class="hljs-built_in">sp</span>, framesize, rpc   确定栈帧大小以及结束时的返回地址<br><br><span class="hljs-comment">#define END(function)                           \</span><br>        <span class="hljs-meta">.end</span>    function<span class="hljs-comment">;                       \指出函数结尾，用于调试</span><br>        .size   function,.-function              在符号表中列出函数名和函数指令字节数<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-C函数和汇编函数的参数、返回值传递"><a href="#2-C函数和汇编函数的参数、返回值传递" class="headerlink" title="2.C函数和汇编函数的参数、返回值传递"></a>2.C函数和汇编函数的参数、返回值传递</h4><p>有时候，我们会不可避免的在C语言中调用汇编函数，也会在汇编语言中调用C函数。根据MIPS软件标准(ABI)的定义，函数的参数传递按照如下原则：</p>
+<ul>
+<li>如果函数参数个数≤4，则将参数依次存入a0-a3寄存器中，并在栈帧底部保留16字节的空间（即sp的值减去16），但并不一定使用这些空间。</li>
+<li>如果函数参数个数&gt;4，则前4个参数依次存入a0-a3寄存器中，从第5个参数开始，依次在前4个参数预留空间之外的空间内存储，即没有寄存器去保存这些值。</li>
+<li>举例，如果一个C函数有6个参数，在汇编语言中需要调用的时候，应当将前4个参数存在a0-a3寄存器中，第5个参数存在16(sp)的位置，第6个参数存在20(sp)的位置。区间0-15的空间保留但不使用。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b77fb78ef5ddbb6e32bd214d6d53c340.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>而关于函数的返回值，MIPS ABI规定，返回值存在v0寄存器中。某些特殊的情况下也会用到v0寄存器中。某些特殊的情况下也会用到v1寄存器，但不常见。想了解更多关于返回值的知识，请查阅书籍<em>See MIPS Run Linux</em>。</p>
+<h4 id="3-栈帧方法宏-include-x2F-stackframe-h"><a href="#3-栈帧方法宏-include-x2F-stackframe-h" class="headerlink" title="3.栈帧方法宏(include&#x2F;stackframe.h)"></a>3.栈帧方法宏(include&#x2F;stackframe.h)</h4><p>我们在进行用户态和内核态之间的切换，或者进程之间的切换时，需要保存现场。所谓现场，就是include&#x2F;trap.h中所定义的trap结构体，其中包含的信息有：</p>
+<ul>
+<li>32个寄存器的值</li>
+<li>CP0部分寄存器的值</li>
+<li>HI、LO两个乘除法寄存器的值</li>
+<li>程序的指令计数器PC</li>
+</ul>
+<p>但是这个文件中只有结构体的定义，没有将数据存入结构体的操作。将寄存器中的值存入内存，显然要用汇编语言去完成。stackframe.h中定义了一些汇编函数的宏，方便我们对现场进行存取操作。下面摘录了其中的宏，并作出相应的解释。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs assembly">//TF_SIZE是Trapframe寄存器的字节大小<br>.macro STI					//Set Interrupt，打开全局中断使能（允许中断）<br>.macro CLI					//Close Interrupt，关闭全局中断使能（屏蔽中断）<br>.macro SAVE_ALL             //保存所有现场，将数据以Trapframe结构体形式存在sp为开头的空间中<br>.macro RESTORE_SOME         //恢复部分现场，此处的“部分”仅不包括sp的值<br>.macro RESTORE_ALL          //恢复所有现场，包括栈顶的位置<br>.macro RESTORE_ALL_AND_RET  //恢复现场并从内核态中返回<br>.macro get_sp               //获取栈顶位置，此函数会判断当前的状态是异常还是中断，<br>                            //从而决定栈顶是TIMESTACK还是KERNEL_SP。<br>                            //系统调用是编号为8的异常，进程切换是时钟中断信号。<br></code></pre></td></tr></table></figure>
+
+<h3 id="二-系统调用"><a href="#二-系统调用" class="headerlink" title="二.系统调用"></a>二.系统调用</h3><h4 id="1-什么是系统调用"><a href="#1-什么是系统调用" class="headerlink" title="1.什么是系统调用"></a>1.什么是系统调用</h4><p>在硬件实现上，用户态的进程无法访问内核的地址空间，这意味着：</p>
+<ul>
+<li>无法存取内核内存数据</li>
+<li>无法调用内核函数</li>
+</ul>
+<p>而所有对硬件的操作都是内核函数，因此用户需要使用系统调用来调用内核的函数。</p>
+<h4 id="2-进入系统调用"><a href="#2-进入系统调用" class="headerlink" title="2.进入系统调用"></a>2.进入系统调用</h4><p>一件事情在脑海中浮现，在MIPS编程中我们是这样进行输入输出——向特定寄存器存放特殊值并调用syscall。而MOS中我们也是这样做的，系统调用的关键就在于用户态和内核态的切换，而这个切换就是在我们调用syscall指令时产生的。</p>
+<p>而就在syscall指令调用后，CPU在硬件层面陷入内核态，其将触发异常分发机制，并最终调用到<code>handle_sys()</code>函数。该函数相当于系统调用的分发，其根据某特定寄存器的值从而找到需要调用的内核函数。</p>
+<blockquote>
+<p>你将见到这几种函数：</p>
+<ul>
+<li><p>syscall_……：用户空间内的函数，与sys_……成对存在</p>
+</li>
+<li><p>msyscall：设置系统调用号并让系统陷入内核态的函数</p>
+</li>
+<li><p>sys_……：内核函数</p>
+<p>有趣的是，在这里我们会发现msyscall需要6个参数，这引起了我们的一个新知识点：大量的参数是如何进行传递的？<br>对于nn个参数的传递，栈帧sp会保留n∗4n∗4个字节的空间，而前4个参数会被放在a0到a3这四个寄存器中，但是栈帧中对应空间还是会被预留，其余参数存储在前四个参数的预留空间之上的区域。</p>
+</li>
+</ul>
+</blockquote>
+<p>注意到一个问题，多于四个的参数会被放到内存中，而这个空间是存在于用户态的，因此我们需要在内核中将这些参数转移到内核空间内，这步工作需要在<code>handle_sys()</code>函数的汇编代码实现了。</p>
+<p>我们先来整理一下在MOS中进行系统调用的流程：</p>
+<ol>
+<li>调用一个封装好的用户空间的库函数（如writef）</li>
+<li>调用用户空间的syscall_* 函数</li>
+<li>调用msyscall，用于陷入内核态</li>
+<li>陷入内核，内核取得信息，执行对应的内核空间的系统调用函数（sys_*）</li>
+<li>执行系统调用，并返回用户态，同时将返回值“传递”回用户态</li>
+<li>从库函数返回，回到用户程序调用处</li>
+</ol>
+<p><strong>msyscall</strong></p>
+<p>msyscall执行的职能只是陷入内核态，并不涉及系统调用的分发。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">syscall</span><br><span class="hljs-keyword"></span><span class="hljs-keyword">jr </span><span class="hljs-built_in">ra</span><br><span class="hljs-keyword">nop</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>handle_sys</strong></p>
+<p>syscall发生后，OS根据中断向量发现是调用了系统调用，从而通过中断分发到<code>handle_sys</code>函数。</p>
+<p><code>handle_sys</code>函数通过分析传入的参数来找到具体的系统调用目标函数，并将传入的参数放到寄存器中，然后进入目标函数。</p>
+<h3 id="三-进程通信-IPC"><a href="#三-进程通信-IPC" class="headerlink" title="三.进程通信 IPC"></a>三.进程通信 IPC</h3><p>进程间通信机制是基于系统调用来实现的。通信的本质就是交换数据，而交换数据的最大问题在于：在进程间，用户地址空间相互独立。</p>
+<p>因此，我们需要通过以内核的2g空间来作为传递信息的媒介，同时我们可以发现，进程控制块是存储在内核空间内的，因此我们完全可以将需要传递的数据放在目标的进程控制块内，然后目标进程在从中读取。</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/2028226/202105/2028226-20210510193425197-1567369399.png"><img src="https://img-blog.csdnimg.cn/img_convert/4ead8de0f9fcfe0ec44a66ced90d877e.png" srcset="/img/loading.gif" lazyload alt="image"></a></p>
+<blockquote>
+<p><em>值得一提的是，由于在我们的用户程序中，会大量使用srcva 为0 的调用来表示不需要传递物理页面，因此在编写相关函数时也需要注意此种情况。</em></p>
+</blockquote>
+<p>这两个过程是通过系统调用中的<code>sys_ipc_recv</code>与<code>sys_ipc_can_send</code>来实现。</p>
+<p>前者需要将当前接收者的进程控制块的相应域设置好，并使用<code>sys_yield</code>使得当前进程放弃CPU。</p>
+<p>后者需要检查目标是否准备好接受，并修改目标进程的进程控制块，将需要的信息放到他们的进程控制块内。</p>
+<blockquote>
+<p>需要注意，<em>如果需要传递物理页面信息，需要调用sys_mem_map函数将当前进程srcva对应位置的页面映射到目标进程的dstva处</em>。</p>
+</blockquote>
+<h3 id="四-Fork函数"><a href="#四-Fork函数" class="headerlink" title="四.Fork函数"></a>四.Fork函数</h3><p>fork函数能够从一个进程生成另一个进程，使得子进程拥有和旧进程绝大部分相同的信息。同时，fork会在父子进程中拥有不同的返回值。</p>
+<ul>
+<li>在fork 之前的代码段只有父进程会执行。</li>
+<li>在fork 之后的代码段父子进程都会执行。</li>
+<li>fork 在不同的进程中返回值不一样，在父进程中返回值不为0，在子进程中返回值为0。</li>
+<li>父进程和子进程虽然很多信息相同，但他们的env_id 是不同的。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/2028226/202105/2028226-20210510193827711-1922362404.png"><img src="https://img-blog.csdnimg.cn/img_convert/6362b59d3b50d7331309cd0b8f0b5b1e.png" srcset="/img/loading.gif" lazyload alt="image"></a></p>
+<h5 id="写时复制机制"><a href="#写时复制机制" class="headerlink" title="写时复制机制"></a>写时复制机制</h5><p>父进程会为子进程设置虚拟空间，但是我们通过上图能够发现，实际的分配过程其实是通过duppage复制页表，并设置PTE_COW。COW就是写时复制的意思（Copy On Write）。</p>
+<p>只有当父子进程中有修改内存的举动时，内核会根据PTE_COW捕获中断（一般指缺页中断，Page Fault），并单独为修改内存的进程分配物理页面，然后将该页面复制过去后再实行修改。</p>
+<h5 id="区分父子进程的理论基础"><a href="#区分父子进程的理论基础" class="headerlink" title="区分父子进程的理论基础"></a>区分父子进程的理论基础</h5><p>fork()能够通过返回值来区别当前进程是否是子进程，若返回值为0则为子进程，否则为父进程。</p>
+<p>而实现返回值差异性的函数是<code>syscall_env_alloc</code>函数，其属于用户函数，其触发系统调用后进行<code>sys_env_alloc</code>来创建和初始化一个新进程块。</p>
+<p><strong>sys_env_alloc</strong></p>
+<p>这个函数需要利用当前进程为模板来填写一个新的子进程块。其工作包括复制一份当前的运行现场<strong>、</strong>复制一下当前的PC值<strong>、</strong>修改子进程状态为阻塞、以及初始化其他进程控制块信息。</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xl">int sys_env_alloc(void)<br>&#123;<br>	int r;<br>	struct Env *e;<br>	<span class="hljs-function"><span class="hljs-title">r</span> = env_alloc(&amp;e, curenv-&gt;</span>env_id);<br>	<span class="hljs-keyword">if</span> (r &lt; <span class="hljs-number">0</span>) return r;<br>	<span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span>env_status = ENV_NOT_RUNNABLE;<br>	<span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_pri</span> = curenv-&gt;</span>env_pri;<br>	<span class="hljs-function"><span class="hljs-title">bcopy</span>((void *)KERNEL_SP - sizeof(struct Trapframe), (void *)&amp;(e-&gt;</span>env_tf), sizeof(struct Trapframe));<br>	<span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_tf</span>.pc = e-&gt;</span>env_tf.cp0_epc;<br>	<span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span>env_tf.regs[<span class="hljs-number">2</span>] = <span class="hljs-number">0</span>;<br><br>	<span class="hljs-function"><span class="hljs-title">return</span> e-&gt;</span>env_id; <span class="hljs-comment">// 注意这个返回值是返回到父进程的</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="在分道扬镳后，父子各自的工作"><a href="#在分道扬镳后，父子各自的工作" class="headerlink" title="在分道扬镳后，父子各自的工作"></a>在分道扬镳后，父子各自的工作</h5><p><strong>子进程</strong></p>
+<p>子进程当前虽然拥有了一个进程控制块，但是仍然存在着几个问题：</p>
+<ul>
+<li>子进程被第一次调度时，其处在fork函数中（准确来说，是syscall_env_alloc返回后），此时函数中的各个变量仍然指向父进程中对应数据结构，子进程如何替换掉这些变量？</li>
+<li>子进程的用户空间没有初始化，如何实现COW的设想？</li>
+</ul>
+<p>我们将在子进程中解决第一个问题，而第二个问题交由父进程解决</p>
+<p><strong>设置进程控制块</strong></p>
+<p>当从<code>syscall_env_alloc</code>返回后，子进程需要将当前函数内的进程控制块指针改为自己的。这一步通过调用<code>syscall_getenvid</code>这一系统调用实现。这一步后，子进程就能够从fork函数退出了（虽然当前处于阻塞状态）。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">new</span><span class="hljs-type">envid</span> = syscall_env_alloc();<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">new</span><span class="hljs-type">envid</span>==<span class="hljs-number">0</span>) &#123;env = envs + ENVX(syscall_getenvid());<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>父进程</strong></p>
+<p>父进程需要为子进程进行很多初始化工作，包括遍历进程空间并合理设置空间权限，实现空间共享<strong>、</strong>实现写时复制的缺页中断机制</p>
+<p><strong>进程映射</strong></p>
+<p>通过遍历当前页目录，将页面按以下规则进行设置：</p>
+<ul>
+<li><strong>只读页面</strong> 按照相同权限（只读）映射给子进程即可</li>
+<li><strong>共享页面</strong> 即具有PTE_LIBRARY 标记的页面，这类页面需要保持共享的可写的状态</li>
+<li><strong>写时复制页面</strong> 即具有PTE_COW 标记的页面，这类页面是上一次的fork 的duppage的结果</li>
+<li><strong>可写页面</strong> 需要给父进程和子进程的页表项都加上PTE_COW 标记</li>
+</ul>
+<p>这个功能由<code>duppage</code>函数实现。</p>
+<p><strong>缺页中断</strong></p>
+<p>MIPS下存在两种缺页中断。一种是TLB缺失导致的缺页中断，其会触发trap并分发到<code>handle_tlb</code>下，然后按照正常逻辑进行查表、重填等，此处按下不表。</p>
+<p>另一种是写时复制触发的缺页中断，其会触发trap分发到另一个处理函数<code>handle_mod</code>下。这个函数会跳转到<code>page_fault_handler</code>下，处理当前写时复制异常。</p>
+<p>注意！MOS系统在此处应用了微内核的思想，将处理异常的方式交由用户进程自身，即在进程控制块内定义了一个域<code>env_pgfault_handler</code>用于指定异常处理的函数，使得用户能够自定义处理过程。</p>
+<p>处理写时复制异常的流程为：</p>
+<ol>
+<li><code>page_fault_handler</code>将当前现场保存在异常处理栈中，设置epc的值，以使得中断退出后跳转到指定用户进程指定的异常处理函数中。</li>
+<li>退出中断，此时根据epc地址跳转到指定函数（注意这个函数是fork.c中的<code>pgfault</code>函数，这意味着它是用户态下执行的）中，处理缺页，然后恢复现场和sp寄存器，令进程恢复执行。</li>
+</ol>
+<h3 id="五-实验难点图解"><a href="#五-实验难点图解" class="headerlink" title="五.实验难点图解"></a>五.实验难点图解</h3><h4 id="1-MIPS调用规范（ABI）"><a href="#1-MIPS调用规范（ABI）" class="headerlink" title="1.MIPS调用规范（ABI）"></a>1.MIPS调用规范（ABI）</h4><p>MIPS ABI规定寄存器传参不需要复制到堆栈内<br><img src="https://img-blog.csdnimg.cn/d0adbe28df014c20bd4c8d7a04171beb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="2-进程间通信机制"><a href="#2-进程间通信机制" class="headerlink" title="2.进程间通信机制"></a>2.进程间通信机制</h4><p>进程间通信机制是基于系统调用来实现的。通信的本质就是交换数据。</p>
+<p>这是通过系统调用中的<code>sys_ipc_recv</code>与<code>sys_ipc_can_send</code>来实现的。</p>
+<p>前者需要将当前接收者的进程控制块的相应域设置好，并使用<code>sys_yield</code>使得当前进程放弃CPU。</p>
+<p>后者需要检查目标是否准备好接受，并修改目标进程的进程控制块，将需要的信息放到他们的进程控制块内。<br><img src="https://img-blog.csdnimg.cn/681ed3bca76340449ab034513b02563a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="3-缺页中断的处理流程"><a href="#3-缺页中断的处理流程" class="headerlink" title="3.缺页中断的处理流程"></a>3.缺页中断的处理流程</h4><p><img src="https://img-blog.csdnimg.cn/e3bd09c97ec54b94b5e6c380f0fdfc82.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS-Lab4</div>
+      <div>http://example.com/2022/07/17/OS-Lab4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月17日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab5/" title="OS-Lab5">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OS-Lab5</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab3/" title="OS-Lab3">
+                        <span class="hidden-mobile">OS-Lab3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

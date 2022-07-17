@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录了OSLab3的一些学习心得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-Lab3">
+<meta property="og:url" content="http://example.com/2022/07/17/OS-Lab3/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="记录了OSLab3的一些学习心得">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/9f6abdf31070433526fb37a1dbc9fed5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/83cc2fb8904288d29efaa67497242d82.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fcdb44a46b5fb9f3c5ff5d8abdd4a978.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/05a8460c52bb4747b81352ef5bdc8d98.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/460c00d903ef4eeeab68eb0b58856b7e.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b669a709f75843dba015820f2468f188.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b00a9539795f449c9a8ac6d1d733e146.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/49f861a6d63047a0a906b3b617325ca9.png#pic_center">
+<meta property="article:published_time" content="2022-07-17T09:40:09.000Z">
+<meta property="article:modified_time" content="2022-07-17T11:39:54.721Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/9f6abdf31070433526fb37a1dbc9fed5.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>OS-Lab3 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS-Lab3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-17 17:40" pubdate>
+          星期日, 七月 17日 2022, 5:40 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          131 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OS-Lab3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="一、进程相关函数"><a href="#一、进程相关函数" class="headerlink" title="一、进程相关函数"></a>一、进程相关函数</h3><p>在做lab3的实验时，发现函数嵌套的情况很多，首先整理这一块的逻辑。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9f6abdf31070433526fb37a1dbc9fed5.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>箭头表示函数调用</p>
+<h4 id="1-初始化："><a href="#1-初始化：" class="headerlink" title="1.初始化："></a>1.初始化：</h4><ul>
+<li>申请envs[]的空间；初始化env_free_list（把空闲进程env_status设置为ENV_FREE）</li>
+</ul>
+<h4 id="2-创立进程：设置env-pri"><a href="#2-创立进程：设置env-pri" class="headerlink" title="2.创立进程：设置env_pri"></a>2.创立进程：设置env_pri</h4><ul>
+<li><p>env_alloc（）：</p>
+<ul>
+<li><p>从env_free_list取出一块空闲进程；</p>
+</li>
+<li><p>设置env_id，env_status，env_parent_id，env_tf.cp0_status，env_tf.regs[29]</p>
+</li>
+<li><p>env_setup_vm（）：</p>
+</li>
+<li><ul>
+<li>为进程创建一页页目录，并建立好自映射</li>
+<li>设置env_pgdir，env_cr3</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>load_icode（）：</p>
+<ul>
+<li>为进程申请一页作为栈，并建立好映射</li>
+<li>设置env_tf.pc（为load_elf返回的binary的入口）</li>
+<li>load_elf（）&#x2F;load_icode_mapper（）：<ul>
+<li>以一个段（segment）为单位，把binary（进程的内容的二进制镜像）的内容复制到所在内存的虚拟地址</li>
+<li>（load_elf负责找入口，mapper负责copy）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-切换进程"><a href="#3-切换进程" class="headerlink" title="3.切换进程"></a>3.切换进程</h4><ul>
+<li>保存当前进程的上下文，设置env_tf，env_tf.pc</li>
+<li>恢复要启动的进程上下文，并启动新进程，设置env_status，env_pgdir，操作了env_tf，env_id</li>
+</ul>
+<h3 id="二、进程控制块-PCB"><a href="#二、进程控制块-PCB" class="headerlink" title="二、进程控制块(PCB)"></a>二、进程控制块(PCB)</h3><p>进程控制块(PCB) 是系统为了管理进程设置的一个专门的数据结构，用它来记录进程的外部特征，描述进程的运动变化过程。系统利用PCB 来控制和管理进程，所以 PCB 是系统感知进程存在的唯一标志 。</p>
+<p>首先贴出PCB的构成。</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs gauss"> <span class="hljs-number">1</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Env</span> &#123;<br> <span class="hljs-number">2</span> <span class="hljs-comment">/* Trapframe 结构体的定义在include/trap.h 中，</span><br><span class="hljs-comment"> 3  * env_tf 的作用就是在进程因为时间片用光不再运行时，</span><br><span class="hljs-comment"> 4  * 将其当时的进程上下文环境保存在env_tf 变量中。</span><br><span class="hljs-comment"> 5  * 当从用户模式切换到内核模式时，内核也会保存进程上下文，</span><br><span class="hljs-comment"> 6  * 因此进程返回时上下文可以从中恢复。</span><br><span class="hljs-comment"> 7  */</span><br> <span class="hljs-number">8</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Trapframe</span> env_tf; <span class="hljs-comment">// Saved registers</span><br> <span class="hljs-number">9</span> <br><span class="hljs-number">10</span> <span class="hljs-built_in">LIST_ENTRY</span>(Env) env_link; <span class="hljs-comment">// Free LIST_ENTRY 构造空闲进程链表。</span><br><span class="hljs-number">11</span> <br><span class="hljs-number">12</span> u_int env_id; <span class="hljs-comment">// Unique environment identifier</span><br><span class="hljs-number">13</span> <br><span class="hljs-number">14</span> <span class="hljs-comment">/*该变量存储了创建本进程的进程id。</span><br><span class="hljs-comment">15  *这样进程之间通过父子进程之间的关联可以形成一颗进程树。</span><br><span class="hljs-comment">16  */</span><br><span class="hljs-number">17</span> u_int env_parent_id; <span class="hljs-comment">// env_id of this env&#x27;s parent</span><br><span class="hljs-number">18</span> <span class="hljs-comment">/*env_status : 该变量只能在以下三个值中进行取值：</span><br><span class="hljs-comment">19   – ENV_FREE : 表明该进程是不活动的，即该进程控制块处于进程空闲链表中。</span><br><span class="hljs-comment">20 </span><br><span class="hljs-comment">21   – ENV_NOT_RUNNABLE : 表明该进程处于阻塞状态，处于该状态的进程往往在</span><br><span class="hljs-comment">22     等待一定的条件才可以变为就绪状态从而被CPU 调度。</span><br><span class="hljs-comment">23 </span><br><span class="hljs-comment">24   – ENV_RUNNABLE : 表明该进程处于就绪状态，正在等待被调度，但处于RUNNABLE </span><br><span class="hljs-comment">25     状态的进程可以是正在运行的，也可能不在运行中。*/</span><br><span class="hljs-number">26</span> u_int env_status; <span class="hljs-comment">// Status of the environment</span><br><span class="hljs-number">27</span> <br><span class="hljs-number">28</span> Pde *env_pgdir; <span class="hljs-comment">// Kernel virtual address of page dir 这个变量保存了该进程页目录的虚拟地址。</span><br><span class="hljs-number">29</span> <br><span class="hljs-number">30</span> u_int env_cr3;<span class="hljs-comment">// 这个变量保存了该进程页目录的物理地址。</span><br><span class="hljs-number">31</span> <br><span class="hljs-number">32</span> <span class="hljs-built_in">LIST_ENTRY</span>(Env) env_sched_link;<span class="hljs-comment">//这个变量来构造就绪状态进程链表。</span><br><span class="hljs-number">33</span> <br><span class="hljs-number">34</span> u_int env_pri;<span class="hljs-comment">//这个变量保存了该进程的优先级。</span><br><span class="hljs-number">35</span> <br><span class="hljs-number">36</span> &#125;;<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-env-tf"><a href="#1-env-tf" class="headerlink" title="1.env_tf"></a>1.env_tf</h4><p>env_tf的类型是struct Trapframe，定义在trap.h中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-number">1</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Trapframe</span> &#123; <span class="hljs-comment">//lr:need to be modified(reference to linux pt_regs) TODO</span><br> <span class="hljs-number">2</span>         <span class="hljs-comment">/* Saved main processor registers. */</span><br> <span class="hljs-number">3</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> regs[<span class="hljs-number">32</span>];<br> <span class="hljs-number">4</span> <br> <span class="hljs-number">5</span>         <span class="hljs-comment">/* Saved special registers. */</span><br> <span class="hljs-number">6</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> cp0_status;<br> <span class="hljs-number">7</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> hi;<br> <span class="hljs-number">8</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lo;<br> <span class="hljs-number">9</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> cp0_badvaddr;<br><span class="hljs-number">10</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> cp0_cause;<br><span class="hljs-number">11</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> cp0_epc;<br><span class="hljs-number">12</span>         <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> pc;<br><span class="hljs-number">13</span> &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>①<strong>regs[29]：</strong>通用寄存器中的29号是栈寄存器，在env_alloc（）的时候设置为USTACKTOP（是用户栈，内核栈在0x8040 0000）</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/83cc2fb8904288d29efaa67497242d82.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>我们回忆起在load_icode（）也申请了一页作为栈映射到了USTACKTOP-BY2PG。刚好是regs[29]所在起始位置的下一页。</p>
+<p>所以在env_alloc（）的时候调整了栈指针的位置为USTACKTOP，在env_icode（）时为栈专门申请了一页的空间[USTACKTOP-BY2PG，USTACKTOP]。</p>
+<p>②<strong>pc：程序计数器，用于存放下一条指令的地址</strong></p>
+<p>上面的函数我们一共有两个地方用到了pc。</p>
+<p>第一处在env_alloc（）</p>
+<p>e-&gt;env_tf.pc &#x3D; entry_point;</p>
+<p>即将进程的起始地址移动到了binary的e_entry，可执行程序入口点地址。</p>
+<p>第二处在env_run（）</p>
+<p>curenv-&gt;env_tf.pc &#x3D; curenv-&gt;env_tf.cp0_epc;</p>
+<p>env_tf.cp0_epc存的是下一条指令的地址，则将下一个pc的地址保存了，回复这个进程的时候可以直接跳转到那个位置。</p>
+<p>③<strong>cp0_status</strong></p>
+<p>在env_alloc（）中进行了这样的设置：</p>
+<p>e-&gt;env_tf.cp0_status &#x3D; 0x10001004;</p>
+<p>指导书中提到“MIPSR3000 里的SR(status register) 寄存器就是我们在env_tf里的cp0_ status，R3000 的SR 寄存器的低六位是一个二重栈的结构。”</p>
+<p>二重栈在这个地方应该是指以大小2为单位的栈。所以实际上在中断发生和中断恢复时，会经历这样的倒腾。</p>
+<blockquote>
+<p>KUo 和IEo 是一组，每当中断发生的时候，硬件自动会将KUp 和IEp 的数值拷贝到这里；KUp 和IEp 是一组，当中断发生的时候，硬件会把KUc 和IEc 的数值拷贝到这里。其中KU 表示是否位于内核模式下，为1 表示位于内核模式下；IE 表示中断是否开启，为1 表示开启，否则不开启2。</p>
+<p>而每当rfe 指令调用的时候，就会进行上面操作的逆操作。—《指导书》</p>
+</blockquote>
+<p>我后来发现PPT里有，请跳过这部分。</p>
+<p>这一段没有关于KUo、IEo、KUp、IEp、KUc、IEc的解释，我估计是这样的，画图说明。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fcdb44a46b5fb9f3c5ff5d8abdd4a978.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>下面这一段代码在运行第一个进程前是一定要执行的，所以就一定会执行rfe这条指令。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">lw </span><span class="hljs-built_in">k0</span>,TF_STATUS(<span class="hljs-built_in">k0</span>) <span class="hljs-comment"># 恢复CP0_STATUS 寄存器</span><br><span class="hljs-keyword">mtc0 </span><span class="hljs-built_in">k0</span>,CP0_STATUS<br><span class="hljs-keyword">j </span><span class="hljs-built_in">k1</span><br>rfe<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>KU：1–内核态，0–用户态；IE：1–开启中断，0–关闭中断。（这里应该是看KUc，IEc）</p>
+<p>rfe会发生类似于中断恢复的操作，往右移动。我们为了设置初始状态为000001b（进入用户态，开启中断），所以我们先设置为000100b，再触发ref指令，使之变成000001b。</p>
+<p>我们之前的设置是e-&gt;env_tf.cp0_status &#x3D; 0x10001004;其中还设置了“第28bit 设置为1，表示处于用户模式下。第12bit 设置为1，表示4 号中断可以被响应。”</p>
+<h4 id="2-lcontext-curenv-gt-env-pgdir"><a href="#2-lcontext-curenv-gt-env-pgdir" class="headerlink" title="2.lcontext(curenv-&gt;env_pgdir)"></a>2.lcontext(curenv-&gt;env_pgdir)</h4><p>curenv-&gt;env_pgdir是页目录的内核虚拟地址<br>lontext 中有一句指令sw a0,mCONTEXT （a0是第一个参数即新进程的内核虚拟地址）</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">LEAF</span><span class="hljs-params">(lcontext)</span></span><br>		<span class="hljs-selector-class">.extern</span>	mCONTEXT<br>		sw		a0,mCONTEXT<br>		jr	ra<br>		nop<br><span class="hljs-function"><span class="hljs-title">END</span><span class="hljs-params">(lcontext)</span></span><br></code></pre></td></tr></table></figure>
+
+<p>在pmap.c中有这样一句mCONTEXT &#x3D; (int)pgdir;是把全新的页目录kva存到mCONTEXT<br>这里就是把curenv的页目录kva存到mCONTEXT,mCONTEXT除了第一次创建页目录的使用,还会在do_refill里使用，这里暂不了解。这里大概是为了开启一个全新的进程时需要创建进程的页目录，需要mCONTEXT。</p>
+<h3 id="三、关键函数理解"><a href="#三、关键函数理解" class="headerlink" title="三、关键函数理解"></a>三、关键函数理解</h3><p>首先第一部分我觉得比较关键的是对于一些非常关键的函数的理解与把握，这些函数是我们本次实验的精华所在，虽然好几个实验都不需要我们自己实现。首先是从第一个我们要填的函数说起吧：</p>
+<h4 id="1-env-init"><a href="#1-env-init" class="headerlink" title="1.env_init"></a>1.env_init</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">void<br>env<span class="hljs-constructor">_init(<span class="hljs-params">void</span>)</span><br>&#123;<br>       <span class="hljs-built_in">int</span> i;<br><br><span class="hljs-comment">/*precondition: envs pointer has been initialized at mips_vm_init, called by mips_init*/</span><br>       <span class="hljs-comment">/*1. initial env_free_list*/</span><br>       <span class="hljs-constructor">LIST_INIT(&amp;<span class="hljs-params">env_free_list</span>)</span>;<br>       <span class="hljs-comment">//step 1;</span><br>       <span class="hljs-comment">/*2. travel the elements in &#x27;envs&#x27;, initial every element(mainly initial its status, mark it as free) and inserts them into</span><br><span class="hljs-comment">       the env_free_list. attention :Insert in reverse order */</span><br>       <span class="hljs-keyword">for</span>(i=NENV-<span class="hljs-number">1</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;<br>             envs<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>.env_status = ENV_FREE;<br>             <span class="hljs-constructor">LIST_INSERT_HEAD(&amp;<span class="hljs-params">env_free_list</span>,<span class="hljs-params">envs</span>+<span class="hljs-params">i</span>,<span class="hljs-params">env_link</span>)</span>;<br>       &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>　　以上是env_init的实现。就是初始化env_free_list，然后按逆序插入envs[i]。</p>
+<p>　　这里唯一值得并需要引起警惕的是逆序，因为我们使用的是LIST_INSERT_HEAD这个宏，任何一个对齐有所了解的人应该都知道，这个宏每次都会将一个结点插入，变成链表的第一个可用结点，而我们在取用的时候是使用LIST_FIRST宏来取的，所以如果这里写错了的话，可能在调度算法里就要有所更改。</p>
+<p>　　可能会有同学问为什么NENV是envs的长度，这个实际上在pmap.c里面的mips_vm_init里可以找到我们的证据，证明envs数组确实给它分配了NENV个结构体的空间，所以它也就有NENV个元素了。</p>
+<h4 id="2-env-setup-vm"><a href="#2-env-setup-vm" class="headerlink" title="2.env_setup_vm"></a>2.env_setup_vm</h4><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs xl">static int<br>env_setup_vm(struct Env *e)<br>&#123;<br>       <span class="hljs-comment">// Hint:</span><br><br>       int i, r;<br>       struct Page *p = NULL;<br><br>       Pde *pgdir;<br>       <span class="hljs-keyword">if</span> ((r = page_alloc(&amp;p)) &lt; <span class="hljs-number">0</span>)<br>       &#123;<br>               panic(<span class="hljs-string">&quot;env_setup_vm - page_alloc error\n&quot;</span>);<br>                       return r;<br>       &#125;<br>       <span class="hljs-function"><span class="hljs-title">p</span>-&gt;</span>pp_ref++;<br>       <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span>env_pgdir = (void *)page2kva(p);<br>       <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span>env_cr3 = page2pa(p);<br><br>       static_assert(UTOP % PDMAP == <span class="hljs-number">0</span>);<br>       <span class="hljs-keyword">for</span> (i = PDX(UTOP); i &lt;= PDX(~<span class="hljs-number">0</span>); i++)<br>         <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span>env_pgdir[i] = boot_pgdir[i];<br>       <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_pgdir</span>[PDX(VPT)]   = e-&gt;</span>env_cr3 ;<br>       <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_pgdir</span>[PDX(UVPT)]  = e-&gt;</span>env_cr3 ;<br><br>       return <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>　　其实这个函数并不需要我们实现，但是我还是想讲一讲这个函数的一些有意思的地方。</p>
+<p>　　我们知道，每一个进程都有4G的逻辑地址可以访问，我们所熟知的系统不管是Linux还是Windows系统，都可以支持3G&#x2F;1G模式或者2G&#x2F;2G模式。3G&#x2F;1G模式即满32位的进程地址空间中，用户态占3G，内核态占1G。这些情况在进入内核态的时候叫做陷入内核，因为即使进入了内核态，还处在同一个地址空间中，并不切换CR3寄存器。但是！还有一种模式是4G&#x2F;4G模式，内核单独占有一个4G的地址空间，所有的用户进程独享自己的4G地址空间，这种模式下，在进入内核态的时候，叫做切换到内核，因为需要切换CR3寄存器，所以进入了不同的地址空间！</p>
+<p>　　而我们这次实验，根据.&#x2F;include&#x2F;mmu.h里面的布局来说，我们其实就是2G&#x2F;2G模式，用户态占用2G，内核态占用2G。所以记住，我们在用户进程开启后，访问内核地址不需要切换CR3寄存器！其实这个布局模式也很好地解释了为什么我们需要把boot_pgdir里的内容拷到我们的e-&gt;env_pgdir中，在我们的实验中，对于不同的进程而言，其虚拟地址ULIM以上的地方，映射关系都是一样的！这是因为这2G虚拟地址与物理地址的对应，不是由进程管理的，是由内核管理的。</p>
+<p>　　另外一点有意思的地方不知大家注意到没有，UTOP~ULIM明明是属于User的区域，却还是把内核这部分映射到了User区，而且我们看mmu.h的布局。我们仔细地来分析一下：</p>
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-aYxIgE0y-1653797805142)(C:\Users\夏伟\AppData\Roaming\Typora\typora-user-images\image-20220529102258920.png)]</p>
+<p>　　 可以看到UTOP是0x7f40 0000，既然有映射，一定就有分配映射的过程，我们使用grep指令搜索一下 UENVS，发现它在这里有pmap.c里的mips_vm_init有所迹象：</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">envs = (<span class="hljs-keyword">struct</span> Env*)alloc(NENV*sizeof(<span class="hljs-keyword">struct</span> Env),BY2PG,<span class="hljs-number">1</span>);<br>   boot<span class="hljs-constructor">_map_segment(<span class="hljs-params">pgdir</span>,UENVS,NENV<span class="hljs-operator">*</span><span class="hljs-params">sizeof</span>(<span class="hljs-params">struct</span> Env)</span>,<span class="hljs-constructor">PADDR(<span class="hljs-params">envs</span>)</span>,PTE_R);<br></code></pre></td></tr></table></figure>
+
+<p>　　可以发现什么呢？其实我们发现，UENVS和envs实际上都映射到了envs对应的物理地址。</p>
+<p>　　其实足以看出来，内核在映射的时候已经为用户留下了一条路径，一条获取其他进程信息的路途。而且我们其实可以知道，这一部分对于进程而言应当是只能读不可以写的。开启中断后我们在进程中再访问内核就会产生异常来陷入内核了，所以应该是为了方便读一些进程信息，内核专门开辟了这4M的用户进程虚拟区。用户读这4M空间的内容是不需要产生异常的。</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_pgdir</span>[PDX(VPT)]  = e-&gt;</span>env_cr3 ;<br><span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_pgdir</span>[PDX(UVPT)] = e-&gt;</span>env_cr3 ;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-env-alloc"><a href="#3-env-alloc" class="headerlink" title="3.env_alloc"></a>3.env_alloc</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-built_in">int</span><br>env<span class="hljs-constructor">_alloc(<span class="hljs-params">struct</span> Env <span class="hljs-operator">**</span><span class="hljs-params">new</span>, <span class="hljs-params">u_int</span> <span class="hljs-params">parent_id</span>)</span><br>&#123;<br>    <span class="hljs-built_in">int</span> r;<br>    <span class="hljs-keyword">struct</span> Env *e;<br><br>    <span class="hljs-comment">/* Step 1: Get a new Env from env_free_list*/</span><br>	e=<span class="hljs-constructor">LIST_FIRST(&amp;<span class="hljs-params">env_free_list</span>)</span>;<br>	<span class="hljs-keyword">if</span>(e==NULL) return -E_NO_FREE_ENV;<br><br>    <span class="hljs-comment">/* Step 2: Call a certain function (has been completed just now) to init kernel memory layout for this new Env.</span><br><span class="hljs-comment">     *The function mainly maps the kernel address to this new Env address. */</span><br>	env<span class="hljs-constructor">_setup_vm(<span class="hljs-params">e</span>)</span>;<br><br>    <span class="hljs-comment">/* Step 3: Initialize every field of new Env with appropriate values.*/</span><br>	e-&gt;env_id=mkenvid(e);<br>	e-&gt;env_parent_id=parent_id;<br>	e-&gt;env_status=ENV_RUNNABLE;<br><br>    <span class="hljs-comment">/* Step 4: Focus on initializing the sp register and cp0_status of env_tf field, located at this new Env. */</span><br>    e-&gt;env_tf.regs<span class="hljs-literal">[<span class="hljs-number">29</span>]</span>=USTACKTOP; <br>    e-&gt;env_tf.cp0_status = <span class="hljs-number">0x10001004</span>;<br><br><br>    <span class="hljs-comment">/* Step 5: Remove the new Env from env_free_list. */</span><br>	<span class="hljs-constructor">LIST_REMOVE(<span class="hljs-params">e</span>,<span class="hljs-params">env_link</span>)</span>;<br>	*<span class="hljs-keyword">new</span>=e;<br>	return <span class="hljs-number">0</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这一部分呢，是单个进程控制块要被分配资源的时候做的一些初始化的工作，其中有几个比较有意思的点很值得深究：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">currentE</span>-&gt;</span>env_tf.pc = UTEXT + <span class="hljs-number">0</span>xb0;<br><span class="hljs-function"><span class="hljs-title">currentE</span>-&gt;</span>env_tf.cp0_status = <span class="hljs-number">0</span>x10001004;<br></code></pre></td></tr></table></figure>
+
+<p>　　第一条可能会有比较大的疑问，为什么进程的二进制码分配到UTEXT对应的地址那里去了，而且也建立好映射关系了，怎么还要加个偏移量作为pc初始值呢？</p>
+<p>　　我们知道pc初始值实际上是进程开始运行的地方，而这里为什么是UTEXT+0xb0，这0xb0是什么东西？我们需要去探究一下code_a.c或者code_b.c文件了，实际上经过一定的了解，这个文件应当是一个elf文件。看其前四个字节就能看出：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">0x7f</span> <span class="hljs-number">0</span>x46 <span class="hljs-number">0</span>x4c <span class="hljs-number">0</span>x46<br></code></pre></td></tr></table></figure>
+
+<p>　　这是elf的标准头，而实际上像这样的标准头的长度是有0xb0的长度，这个实际上我们可以把code_a.c里的数组搞出来，然后变成一个elf文件，最后使用readelf来读取出地址，这样就能明白原理了。所以UTEXT+0xb0这个虚拟地址对应物理地址里面放着的，才是真正可执行代码的第一条。</p>
+<p>　　再来就是这个0x10001004这个问题，这个问题很好玩。因为R3000自身的SR寄存器与mips其他版本的SR寄存器略有不同，它的最后六位记载了是一组深度为二的二重栈，不过笔者在这里还残留着一些不大不小的问题。《see mips run》中只是提到了关于这些寄存器的作用，而没有提到中断的时候这些寄存器应当是什么状态。如果有兴趣的同学可以grep一下 “CP0_STATUS” 和”cp0_status” 说不定能发现个中玄机。                   </p>
+<h4 id="4-load-icode"><a href="#4-load-icode" class="headerlink" title="4.load_icode"></a>4.load_icode</h4><p>　　这个堪称是本次实验中为数不多的坑函数之一，所以我也就重点讲一下几个要点好了。</p>
+<p>　　首先要解释的就是这个page_insert函数，这个函数看起来平淡无奇，但是如果层层深入，就能发现里面的一些奥妙之处。</p>
+<p>　　我们首先来看page_insert：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-built_in">int</span> page<span class="hljs-constructor">_insert(Pde <span class="hljs-operator">*</span><span class="hljs-params">pgdir</span>, <span class="hljs-params">struct</span> Page <span class="hljs-operator">*</span><span class="hljs-params">pp</span>, <span class="hljs-params">u_long</span> <span class="hljs-params">va</span>, <span class="hljs-params">u_int</span> <span class="hljs-params">perm</span>)</span><br>&#123;<br>	u_int PERM;<br>	Pte *pgtable_entry;<br>	PERM = perm <span class="hljs-pattern-match">| <span class="hljs-constructor">PTE_V</span>;</span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> <span class="hljs-constructor">Step</span> 1: <span class="hljs-constructor">Get</span> corresponding page table entry. <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match">	pgdir<span class="hljs-constructor">_walk(<span class="hljs-params">pgdir</span>, <span class="hljs-params">va</span>, 0, &amp;<span class="hljs-params">pgtable_entry</span>)</span>;</span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	<span class="hljs-keyword">if</span> (pgtable<span class="hljs-constructor">_entry</span> != 0 <span class="hljs-operator">&amp;&amp;</span> (<span class="hljs-operator">*</span>pgtable<span class="hljs-constructor">_entry</span> &amp; <span class="hljs-constructor">PTE_V</span>) != 0) &#123;</span><br><span class="hljs-pattern-match">		<span class="hljs-keyword">if</span> (pa2page(<span class="hljs-operator">*</span>pgtable<span class="hljs-constructor">_entry</span>) != pp) &#123;</span><br><span class="hljs-pattern-match">			page<span class="hljs-constructor">_remove(<span class="hljs-params">pgdir</span>, <span class="hljs-params">va</span>)</span>;</span><br><span class="hljs-pattern-match">		&#125; <span class="hljs-keyword">else</span>	&#123;</span><br><span class="hljs-pattern-match">			tlb<span class="hljs-constructor">_invalidate(<span class="hljs-params">pgdir</span>, <span class="hljs-params">va</span>)</span>;</span><br><span class="hljs-pattern-match">			<span class="hljs-operator">*</span>pgtable<span class="hljs-constructor">_entry</span> = (page2pa(pp) | <span class="hljs-constructor">PERM</span>);</span><br><span class="hljs-pattern-match">			return 0;</span><br><span class="hljs-pattern-match">		&#125;</span><br><span class="hljs-pattern-match">	&#125;</span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> <span class="hljs-constructor">Step</span> 2: <span class="hljs-constructor">Update</span> <span class="hljs-constructor">TLB</span>. <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> hint: use tlb<span class="hljs-constructor">_invalidate</span> <span class="hljs-keyword">function</span> <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	tlb<span class="hljs-constructor">_invalidate(<span class="hljs-params">pgdir</span>,<span class="hljs-params">va</span>)</span>;</span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> <span class="hljs-constructor">Step</span> 3: <span class="hljs-constructor">Do</span> check, re-get page table entry <span class="hljs-keyword">to</span> validate the insertion. <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match"></span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> <span class="hljs-constructor">Step</span> 3.1 <span class="hljs-constructor">Check</span> <span class="hljs-keyword">if</span> the page can be insert, <span class="hljs-keyword">if</span> can’t return -<span class="hljs-constructor">E_NO_MEM</span> <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match">	<span class="hljs-keyword">if</span>(pgdir<span class="hljs-constructor">_walk(<span class="hljs-params">pgdir</span>,<span class="hljs-params">va</span>,1,&amp;<span class="hljs-params">pgtable_entry</span>)</span>!=0)</span><br><span class="hljs-pattern-match">	&#123;</span><br><span class="hljs-pattern-match">		return -<span class="hljs-constructor">E_NO_MEM</span>;</span><br><span class="hljs-pattern-match">	&#125;</span><br><span class="hljs-pattern-match">	<span class="hljs-operator">/</span><span class="hljs-operator">*</span> <span class="hljs-constructor">Step</span> 3.2 <span class="hljs-constructor">Insert</span> page <span class="hljs-keyword">and</span> increment the pp<span class="hljs-constructor">_ref</span> <span class="hljs-operator">*</span><span class="hljs-operator">/</span></span><br><span class="hljs-pattern-match">	<span class="hljs-operator">*</span>pgtable<span class="hljs-constructor">_entry</span>=page2pa(pp)|<span class="hljs-constructor">PERM</span>;</span><br><span class="hljs-pattern-match">	pp-&gt;pp<span class="hljs-constructor">_ref</span><span class="hljs-operator">++</span>;</span><br><span class="hljs-pattern-match">	return 0;</span><br><span class="hljs-pattern-match">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>　　实际上这个函数是这样一个流程：</p>
+<p>　　先判断va是否有对应的页表项，如果页表项有效。或者叫va是否已经有了映射的物理地址。如果有的话，则去判断这个物理地址是不是我们要插入的那个物理地址，如果不是，那么就把该物理地址移除掉；如果是的话，则修改权限，放到tlb里去。</p>
+<p>　　关于page_inert以下两点一定要注意：</p>
+<ul>
+<li>page_insert处理将同一虚拟地址映射到同一个物理页面上不会将当前已有的物理页面移除掉，但是需要修改掉permission；</li>
+<li>只要对页表有修改，都必须tlb_invalidate一下，否则后面紧接着对内存的访问很有可能出错。这就是为什么有一些同学直接使用了pgdir_walk而没有page_insert产生错误的原因。</li>
+</ul>
+<p>　　既然提到了tlb_invalidate函数，那么我们来仔细分析一下这个函数，这个函数代码如下：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">void<br>tlb<span class="hljs-constructor">_invalidate(Pde <span class="hljs-operator">*</span><span class="hljs-params">pgdir</span>, <span class="hljs-params">u_long</span> <span class="hljs-params">va</span>)</span><br>&#123;<br>        <span class="hljs-keyword">if</span> (curenv)<br>                tlb<span class="hljs-constructor">_out(PTE_ADDR(<span class="hljs-params">va</span>)</span><span class="hljs-pattern-match">|<span class="hljs-constructor">GET_ENV_ASID(<span class="hljs-params">curenv</span>-&gt;<span class="hljs-params">env_id</span>)</span>);</span><br><span class="hljs-pattern-match">        <span class="hljs-keyword">else</span></span><br><span class="hljs-pattern-match">                tlb<span class="hljs-constructor">_out(PTE_ADDR(<span class="hljs-params">va</span>)</span>);</span><br><span class="hljs-pattern-match">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>　　关于为什么要使用GET_ENV_ASID宏，助教老师给的指导书里其实没有讲太清楚，tlb的ASID区域只有20位，而我们mkenvid函数调用后得到的id值是可以超出20位的，大家可以在env_init初始化的时候打印env_id的值，然后在init.c里面create 1024个进程即可看到实际上envid最大可达1ffbfe，而使用GET宏之后最大可达ffc0，而且都可以为tlb用于区分进程，所以肯定是位数越少越好啦。而且还有一个比较有意思的地方，GET宏里实际上是让env_id先 &gt;&gt;11 然后 &lt;&lt;6 达到最后效果的，这样和&gt;&gt;5有什么区别呢？区别就在于 如果先&gt;&gt;11再 &lt;&lt;6，后6位一定是0！（2进制位），所以我猜后六位一定是有其独特用处的，否则在这里也不会强调清零，不过我们这次实验里还没有看到特殊用处。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">LEAF(tlb_out)<br>//<span class="hljs-number">1</span>: j <span class="hljs-number">1b</span><br><span class="hljs-keyword">nop</span><br>	mfc0	<span class="hljs-built_in">k1</span>,CP0_ENTRYHI<br>	mtc0	a0,CP0_ENTRYHI<br>	<span class="hljs-keyword">nop</span><br>	// insert tlbp <span class="hljs-keyword">or</span> tlbwi<br>	tlbp<br>	<span class="hljs-keyword">nop</span><br>	<span class="hljs-keyword">nop</span><br>	<span class="hljs-keyword">nop</span><br>	<span class="hljs-keyword">nop</span><br>	mfc0	<span class="hljs-built_in">k0</span>,CP0_INDEX<br>	bltz	<span class="hljs-built_in">k0</span>,NOFOUND<br>	<span class="hljs-keyword">nop</span><br>	mtc0	<span class="hljs-meta">zero</span>,CP0_ENTRYHI<br>	mtc0	<span class="hljs-meta">zero</span>,CP0_ENTRYLO0<br>	<span class="hljs-keyword">nop</span><br>	// insert tlbp <span class="hljs-keyword">or</span> tlbwi<br>	tlbwi<br><span class="hljs-symbol">NOFOUND:</span><br><br>	mtc0	<span class="hljs-built_in">k1</span>,CP0_ENTRYHI<br>	<br>	j	ra<br>	<span class="hljs-keyword">nop</span><br>END(tlb_out)<br><br></code></pre></td></tr></table></figure>
+
+<p> 　这段汇编是tlb_invalidate函数的精华所在，CP0_ENTRYHI实际上就是用来给tlb倒腾数据的，不用太在意其本身的作用。</p>
+<p> 　前两句是指把之前的CP0_ENTRYHI存在k1里面暂存一下。然后我们就有一条很关键的汇编指令 tlbp ，很关键。</p>
+<p>　　通过查mips手册可以知道tlbp的功能如下：<br><img src="https://img-blog.csdnimg.cn/05a8460c52bb4747b81352ef5bdc8d98.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>　　之后的几个nop应该是为tlb指令设置的流水缓冲，因为tlbp执行的周期要比一般指令长。其实这条汇编的目的就是：</p>
+<p>　　To find a matching entry in the TLB.所以说实际上是把va及其对应的物理地址存在tlb里了，而且tlbp应该是依托于CP0_INDEX和CP0_EnrtyHI寄存器的。那么后面的那些读CP0_INDEX实际上是对tlbp执行是否成功的一个判断而已。注意，这里的tlbp就是在内核态下进行的，所以不会产生异常。如果在用户态下修改CP0的寄存器，或者使用tlbp汇编等，那就说明是tlb缺失或page_fault了！</p>
+<p>　　那么再返回我们的page_insert来看看下一句，下一句是建立一个va与pa之间的桥梁，一个页表的建立，pgdir_walk(pgdir, va, 1, &amp;pgtable_entry)，所以说我们其实在最开始load_icode的时候，实际上是建立了不止size大小的页，还需要建立一个能够映射到该页的页表！那么在最后，为页表项的内容设置权限位PTE_R。恩，那么page_insert函数就此结束了。</p>
+<p>　　page_insert函数结束了，不代表我们这个load_icode结束。下一步则是bcopy。</p>
+<p>　　bcopy这个函数本身不坑，坑的是用法。首先对比原文中的这句我们来粗浅地看一下bcopy：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-built_in">bzero</span>(page2kva(page),BY2PG);<br><span class="hljs-built_in">bcopy</span>((void *)binary,<span class="hljs-built_in">page2kva</span>(page),BY2PG);<br></code></pre></td></tr></table></figure>
+
+<p>　　我个人以为这里bzero清零比较好，因为不能保证lab2哪里有问题还会影响到这里来。我倾向于一页一页地清除目标页，分配原始页，当然实验证明这样写也是没有任何问题的。那么下面来解释一下为什么这里用的是page2kva(page)，而不是用与UTEXT有关的数值？</p>
+<p>　　首先我们解释过了，UTEXT+0xb0是程序的入口，何谓入口？比如我们现在启动了一个进程，我们如何能从哪里开始，该怎样跑呢？这取决于我们run一个进程前的准备工作，当然这个工作在进程切换时也需要做，其中很重要的一点就是保存pc。这一点很重要，极其重要。如果是第一次run一个进程的时候，我们的pc是务必要被设置为UTEXT+0xb0的，这也是在env_alloc里面所做的工作。之后有一些我们没有关注过的汇编程序就会默默地根据我们设置的pc去找我们的程序入口，默默地执行，遇到中断默默地保存，切换。于是就这样完成了进程的运行与切换大计。</p>
+<p>　　那么我们这里bcopy不能用UTEXT来copy是因为，我们这里还没开始一个进程，没有其页目录来作为基址，所以你现在copy到的地方也只是内核的UTEXT处。我们都知道在env_run时要切换页目录，切换为进程的页目录后，我们就再也找不到这部分copy的东西了（因为env_setup_vm只复制内核页目录ULIM以上的部分）。所以我们要copy到的地方一定是要内核和每个进程均可以访问的，显而易见要copy到ULIM以上的部分。即page2kva(page)这个地方。当然，你可以选择先切换到进程的页目录，然后copy，然后在结束的时候切换回内核的页目录，</p>
+<p>　　再次强调一点，bcopy也好，bzero也好，在我们编写的程序中，只要是作为访问地址来使用的（什么叫作为地址来使用，就是可以取其内容的 *address)，全部都使用的是虚拟地址！　　</p>
+<p>　　如果你还有更多的探索之心的话，我们可以这么来玩一下load_icode，你看我们之前bcopy不能copy到UTEXT的理由也知道了，那何不先切换到进程的页目录，复制完了以后再切换回来呢？事实上这种做法理论上是完全正确的，但是我在我们的实验里试验过发现不对！后来发现即使切换了页目录，也可以照常访问内核区的地址，完全没有问题！为什么？后来我才猛然想到，我们这次实验的lcontext切换页目录，完全是为tlb中断和page_fault服务的，所以指望lcontext来自动帮我们找到物理地址并且往里添加内容的话，是不可以的。</p>
+<p>　　最后呢，实际上就是建个进程里的用户栈而已，这里区别开用户栈 和内存栈的区别。</p>
+<p>　　多个进程运行时，实际上在内存中有一个栈型结构来存放进程的代码，数据，常量等，而在用户栈里放的则是运行过程中所定义的变量等，这点需要正确把握。当然最后要设置权限，PTE_R，这是写的权限，要设置给用户栈，否则后面进程没有办法写自己的栈了 。　　</p>
+<h4 id="5-env-create"><a href="#5-env-create" class="headerlink" title="5.env_create"></a>5.env_create</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">void<br>env<span class="hljs-constructor">_create(<span class="hljs-params">u_char</span> <span class="hljs-operator">*</span><span class="hljs-params">binary</span>, <span class="hljs-params">int</span> <span class="hljs-params">size</span>)</span><br>&#123;<br>     <span class="hljs-comment">/* Step 1: Use env_create_priority to alloc a new env with priority 1 */</span><br>	env<span class="hljs-constructor">_create_priority(<span class="hljs-params">binary</span>,<span class="hljs-params">size</span>,1)</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>实际上这里env_create就很简单了，就是alloc一个进程控制块，然后加载其代码。</p>
+<h4 id="6-env-run"><a href="#6-env-run" class="headerlink" title="6.env_run"></a>6.env_run</h4><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs xl">void<br>env_run(struct Env *e)<br>&#123;<br>	struct Trapframe *old;<br>	old=(struct Trapframe *)(TIMESTACK-sizeof(struct Trapframe));<br>    <span class="hljs-comment">/* Step 1: save register state of curenv. */</span><br>    <span class="hljs-comment">/* Hint: if there is an environment running, </span><br><span class="hljs-comment">     *   you should switch the context and save the registers. </span><br><span class="hljs-comment">     *   You can imitate env_destroy() &#x27;s behaviors.*/</span><br>     <span class="hljs-keyword">if</span>(curenv!=NULL)<br>	&#123;<br>		<span class="hljs-function"><span class="hljs-title">curenv</span>-&gt;</span>env_tf=*old;<br>		<span class="hljs-function"><span class="hljs-title">curenv</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">env_tf</span>.pc=old-&gt;</span>cp0_epc;<br>	&#125;<br><br>    <span class="hljs-comment">/* Step 2: Set &#x27;curenv&#x27; to the new environment. */</span><br>	curenv=e;<br>	<span class="hljs-function"><span class="hljs-title">curenv</span>-&gt;</span>env_status=ENV_RUNNABLE;<br><br>    <span class="hljs-comment">/* Step 3: Use lcontext() to switch to its address space. */</span><br>	<span class="hljs-function"><span class="hljs-title">lcontext</span>(curenv-&gt;</span>env_pgdir);<br><br>    <span class="hljs-comment">/* Step 4: Use env_pop_tf() to restore the environment&#x27;s</span><br><span class="hljs-comment">     *   environment   registers and return to user mode.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * Hint: You should use GET_ENV_ASID there. Think why?</span><br><span class="hljs-comment">     *   (read &lt;see mips run linux&gt;, page 135-144)</span><br><span class="hljs-comment">     */</span><br>	<span class="hljs-function"><span class="hljs-title">env_pop_tf</span>(&amp;curenv-&gt;</span><span class="hljs-function"><span class="hljs-title">env_tf</span>,GET_ENV_ASID(curenv-&gt;</span>env_id));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>   刚刚说到的load_icode是为数不多的坑函数之一，env_run也是，而且其实按程度来讲可能更甚一筹。</p>
+<p>　　那我们来一步一步分析一下这个函数的坑处。</p>
+<p>　　首先是要理解进程切换，需要做些什么？实际上进程切换的时候，为了保证下一次进入这个进程的时候我们不会再“从头来过”，我们要保存一些信息，那么，需要保存什么信息呢？保存的应该是以下几方面：</p>
+<p>　　[1]进程本身的状态</p>
+<p>　　[2]进程周围的环境的状态，环境就是指此时的CPU的状态</p>
+<p>　　那么我们可能会产生疑问，进程本身的状态怎么记录呢？</p>
+<p>　　进程本身的状态无非就是进程块里面那几个东西，包括id,parent_id,pc,tf…</p>
+<p>　    Trapframe里面有 cp0_badvaddr,cp0_cause,cp0_epc,regs[32]…</p>
+<p>　　这些东西不是进程自己的。这些都是CPU的状态。所以说实际上一个进程控制块中的tf，就是来记录它的环境的状态的。进程本身的状态在进程切换的时候是不会变的。会变的也是需要我们保存的实际上是进程的环境信息。</p>
+<p>　　谨记这一点，或许你就能开始明白run代码中的第一句:</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span> <span class="hljs-keyword">if</span>(curenv)&#123;<br><span class="hljs-symbol">2 </span>              tf = TIMESTACK - sizeof(struct Trapframe);<br><span class="hljs-symbol">3 </span>              bcopy(tf,&amp;curenv-&gt;env_tf,sizeof(struct Trapframe));<br><span class="hljs-symbol">4 </span>              curenv-&gt;env_tf.pc = tf-&gt;cp0_epc;<br><span class="hljs-symbol">5 </span>        &#125;<br></code></pre></td></tr></table></figure>
+
+<p>　　很多同学在这里可能遇到了他们在lab3中的最大困惑：</p>
+<p>　　　　为什么这里不能从KERNEL_SP取东西，而是非要从TIMESTACK取。KERNEL_SP是用来干啥的？</p>
+<p>　　为了搞清楚这一点，我们需要知道：什么时候我们把东西往TIMESTACK放，又是什么时候取出来的？</p>
+<p>　　笔者在 .&#x2F;include&#x2F;stackframe.h 找到了一点端倪：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"> <span class="hljs-number">1</span> <span class="hljs-meta">.macro</span> get_sp<br> <span class="hljs-number">2</span>         <span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">k1</span>, CP0_CAUSE<br> <span class="hljs-number">3</span>         <span class="hljs-keyword">andi </span>   <span class="hljs-built_in">k1</span>, <span class="hljs-number">0x107C</span><br> <span class="hljs-number">4</span>         <span class="hljs-keyword">xori </span>   <span class="hljs-built_in">k1</span>, <span class="hljs-number">0x1000</span><br> <span class="hljs-number">5</span>         <span class="hljs-keyword">bnez </span>   <span class="hljs-built_in">k1</span>, <span class="hljs-number">1</span>f<br> <span class="hljs-number">6</span>         <span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span> <span class="hljs-number">7</span>         li      <span class="hljs-built_in">sp</span>, <span class="hljs-number">0x82000000</span><br> <span class="hljs-number">8</span>         <span class="hljs-keyword">j </span>      <span class="hljs-number">2</span>f<br> <span class="hljs-number">9</span>         <span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span><span class="hljs-number">10</span> <span class="hljs-number">1</span>:<br><span class="hljs-number">11</span>         <span class="hljs-keyword">bltz </span>   <span class="hljs-built_in">sp</span>, <span class="hljs-number">2</span>f<br><span class="hljs-number">12</span>         <span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span><span class="hljs-number">13</span>         <span class="hljs-keyword">lw </span>     <span class="hljs-built_in">sp</span>, KERNEL_SP<br><span class="hljs-number">14</span>         <span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span><span class="hljs-number">15</span> <br><span class="hljs-number">16</span> <span class="hljs-number">2</span>:      <span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span><span class="hljs-number">17</span> <br><span class="hljs-number">18</span> <span class="hljs-meta">.endm</span><br></code></pre></td></tr></table></figure>
+
+<p>　　实际上我们的TIMSTACK就是0x82000000，因为我们本次都是时钟中断，所以sp是TIMSTACK区。</p>
+<p>　　而我们再仔细地观察这个头文件，发现其实里面的宏汇编 RESTORE_SOME 和env_pop_tf 几乎一模一样。TIMESTACK是时钟中断后的存储区，而KERNEL_SP应当是系统调用后的存储区。我们可以把run里面的TIMSTACK改成 KERNEL_SP试试，发现其实KERNEL_SP在第一个进程执行完之后就没更新过，这是显而易见的，因为我们第一个进程启动后，就再也没有给过内核进程控制权啊！不过我们的猜想估计要到后面的实验才能认证。</p>
+<p>　  那么实际上我们在往某个寄存器比如$1里放东西的时候，应该是放到了sp为起始虚拟地址对应的物理地址处，那么就是</p>
+<ul>
+<li>　　env_pop_tf 负责放东西到sp(这里是TIMESTACK)中去；</li>
+<li>　　而这开头的一段负责从sp里取出东西来(这里是TIMSTACK)。</li>
+</ul>
+<p>　　所以我们一开始没有正在运行的进程块的时候，是不需要取的，但是一旦一个进程块运行到末尾的话，就会向TIMSTACK中存入东西。</p>
+<p>　　比如我们进程1开始运行，运行到env_run的末尾，我们把当时的环境保存了下来。运行一段时间后，时钟中断导致切换，发现要到进程2了，在切换之前，我们把进程1的离开时的状态保存在其tf内，离开的状态其实就在TIMESTACK中。因为我理解的这个TIMESTACK就是当前访问CPU的寄存器所用虚拟地址，所以其所对应的值就是CPU的各个寄存器的值，所以就会在进程运行时改变，所以要更新。</p>
+<p>　　注意还有一个小坑的地方在于 如果要env_pop_tf的时候，千万记得要先lcontext切换了页目录，否则是会出错的。env_pop_tf 的字面意思估计大家也明白了，就是把env里的tf 压到 寄存器里去。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</p>
+<h3 id="四、实验难点图示"><a href="#四、实验难点图示" class="headerlink" title="四、实验难点图示"></a>四、实验难点图示</h3><h4 id="1-加载二进制镜像"><a href="#1-加载二进制镜像" class="headerlink" title="1.加载二进制镜像"></a>1.加载二进制镜像</h4><p>这一部分的内容较多且难度较大，由三个函数共同完成，即：</p>
+<ul>
+<li>env.c中的<code>load_icode</code></li>
+<li>kernal_elfloader.c中的<code>load_elf</code></li>
+<li>env.c中的<code>load_icode_mapper</code></li>
+</ul>
+<p>其中<code>load_icode</code>为实现这个功能的代码，它的功能在于：</p>
+<ol>
+<li>分配内存</li>
+<li>将二进制代码装入分配好的内存中</li>
+</ol>
+<p>其中，第二步，即装入内存的操作交给了函数<code>load_elf</code>来完成，而<code>load_elf</code>的工作又被分为：</p>
+<ol>
+<li>解析<code>ELF</code>结构</li>
+<li>将<code>ELF</code>的内容复制到内存中</li>
+</ol>
+<p>其中，第二步，即将内容复制到内存中的操作又交给了<code>load_icode_mapper</code>函数去进行，所以三段代码的协作方式如下图：<br><img src="https://img-blog.csdnimg.cn/460c00d903ef4eeeab68eb0b58856b7e.png#pic_center" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>在函数<code>load_elf</code>中，我们不难发现，我们在<code>load_icode_mapper</code>中用到的许多参量在这里都有了很明确的实例对应，具体映射如下：<br><img src="https://img-blog.csdnimg.cn/b669a709f75843dba015820f2468f188.png#pic_center" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>因此我们只要将给定的ELF文件进行正确解析，就能利用<code>load_icode_mapper</code>对其进行内容复制</p>
+<p>函数<code>load_icode</code>重点在于设置<code>PC</code>值，即从<code>load_elf</code>中返回的<code>entry_point</code></p>
+<h4 id="2-env-setup-vm函数的填写，初始化新进程地址空间"><a href="#2-env-setup-vm函数的填写，初始化新进程地址空间" class="headerlink" title="2.env_setup_vm函数的填写，初始化新进程地址空间"></a>2.<code>env_setup_vm</code>函数的填写，初始化新进程地址空间</h4><p>在这个函数中，内存空间被分成了如下的两个部分，即<code>UTOP</code>以上和<code>UTOP</code>以下，在<code>UTOP</code>以下的部分，我们需要将页目录的这一块区域清零，而在<code>UTOP</code>以上的部分，用户不能操作，属于内核态，因此我们可以将<code>boot_pgdir</code>的内容直接复制到进程的页目录中。</p>
+<p>在<code>UTOP</code>之上有一块被称为<code>UVPT</code>的地址，这一块区域作为用户进程页目录，需要用自映射机制进行单独处理。<br>地址空间的结构图如下：<br><img src="https://img-blog.csdnimg.cn/b00a9539795f449c9a8ac6d1d733e146.png#pic_center" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="3-sched-yield-进程切换的调度算法"><a href="#3-sched-yield-进程切换的调度算法" class="headerlink" title="3.sched_yield() 进程切换的调度算法"></a>3.sched_yield() 进程切换的调度算法</h4><p>进程的调度也是基于这个时间片来进行，主要的步骤为如下几步：</p>
+<ol>
+<li>设置两个队列，其中一个为目前的进程调度队列<code>q0</code>，另一个为一个空队列<code>q1</code>。</li>
+<li>首先判断当前队列指针指向的队首进程的<code>env_status</code><ul>
+<li>如果为<code>ENV_FREE</code>，则要将该进程从队列中移除</li>
+<li>如果为<code>ENV_NOT_RUNNABLE</code>，则直接将其插入另一个队列的尾部</li>
+<li>如果为<code>ENV_RUNNABLE</code>，则判断这个进程的时间片是否用完，若用完则复原其时间片并将其插入到另一个队列尾部</li>
+<li>当一个队列为空时，将指针转移到另一个队列队首<br><img src="https://img-blog.csdnimg.cn/49f861a6d63047a0a906b3b617325ca9.png#pic_center" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS-Lab3</div>
+      <div>http://example.com/2022/07/17/OS-Lab3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月17日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab4/" title="OS-Lab4">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OS-Lab4</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab2/" title="OS-Lab2">
+                        <span class="hidden-mobile">OS-Lab2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

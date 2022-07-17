@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录了OSLab5的一些学习心得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-Lab5">
+<meta property="og:url" content="http://example.com/2022/07/17/OS-Lab5/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="记录了OSLab5的一些学习心得">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f7f227bf88e4455da700e8128de850d6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e8249302ff204ed898d588a14ce80be7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/ed0411419922866ca7bcedf87744bcc5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c43836eefb38ebf058bcfb560575bf57.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/755aa2dda57d2a42cc867357012fc24b.png">
+<meta property="article:published_time" content="2022-07-17T09:44:02.000Z">
+<meta property="article:modified_time" content="2022-07-17T11:40:08.215Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/f7f227bf88e4455da700e8128de850d6.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>OS-Lab5 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS-Lab5"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-17 17:44" pubdate>
+          星期日, 七月 17日 2022, 5:44 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          74 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OS-Lab5</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一-全局变量名词解释"><a href="#一-全局变量名词解释" class="headerlink" title="一.全局变量名词解释"></a>一.全局变量名词解释</h2><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs gauss"><span class="hljs-meta">#<span class="hljs-keyword">define</span> NBLOCK 1024 <span class="hljs-comment">//一块磁盘里面的block数目</span></span><br>uint32_t nbitblock; <span class="hljs-comment">// 用于存储bitmap的block数目</span><br>uint32_t nextbno;   <span class="hljs-comment">// 下一块可用的block编号</span><br><br><span class="hljs-keyword">struct</span> <span class="hljs-type">Super</span> super; <span class="hljs-comment">// 超级块</span><br><span class="hljs-keyword">struct</span> <span class="hljs-type">Block</span> &#123;<br>    uint8_t data[BY2BLK];<br>    uint32_t <span class="hljs-built_in">type</span>;<br>&#125; disk[NBLOCK];<br><br><span class="hljs-comment">///////////////////下面的内容在include里面的fs.h里面</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BY2BLK		BY2PG<span class="hljs-comment">//一个block对应的字节，也就是说，一个block正好等于一页大小</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BIT2BLK		(BY2BLK*8)<span class="hljs-comment">//一个block对应的*位数*，一字节等于8位，所以要乘8</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXNAMELEN	128<span class="hljs-comment">//用于存文件名的char数组大小，由于最后一个必定为&#x27;\0&#x27;,所以只能存127个字符</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXPATHLEN	1024<span class="hljs-comment">//和上面的类似，只不过是用来存路径的</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NDIRECT		10<span class="hljs-comment">//直接引用的个数，可以认为是10个指针，这里用int存block的下标来代替了指针的作用</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NINDIRECT	(BY2BLK/4)<span class="hljs-comment">//间接引用块的指针个数，由于一个int是32位，也就是4byte，所以是除4</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXFILESIZE	(NINDIRECT*BY2BLK)<span class="hljs-comment">//最大文件大小，那么就是引用指针的个数*一块大小</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BY2FILE     256<span class="hljs-comment">//定义了一个FIle结构体（文件索引结构体）所占用的大小，实际上比FILE结构体实际占用大小要大，是为了保持扩展性？</span></span><br><br><span class="hljs-keyword">struct</span> <span class="hljs-type">File</span> &#123;<span class="hljs-comment">//文件索引结构体</span><br>	u_char f_name[MAXNAMELEN];	<span class="hljs-comment">// 文件名</span><br>	u_int f_size;			<span class="hljs-comment">// 文件大小（字节），其实就是引用块所占的总大小</span><br>	u_int f_type;			<span class="hljs-comment">// 文件类型，有两种，一种是普通文件，一种是目录</span><br>	u_int f_direct[NDIRECT];<span class="hljs-comment">//直接引用指针</span><br>	u_int f_indirect;<span class="hljs-comment">//指向间接引用块</span><br><br>	<span class="hljs-keyword">struct</span> <span class="hljs-type">File</span> *f_dir;		<span class="hljs-comment">// 指向包含这个文件的目录，只在内存中存在着（真正写入文件之后没有这部分）</span><br>	u_char f_pad[BY2FILE - MAXNAMELEN - <span class="hljs-number">4</span> - <span class="hljs-number">4</span> - NDIRECT * <span class="hljs-number">4</span> - <span class="hljs-number">4</span> - <span class="hljs-number">4</span>];<span class="hljs-comment">//为了填满by2file，而开了这部分内容</span><br>&#125;;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FILE2BLK	(BY2BLK/sizeof(struct File))<span class="hljs-comment">//就是一个block能容纳多少个file索引</span></span><br><br><span class="hljs-comment">// File types</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FTYPE_REG		0	<span class="hljs-comment">// 普通文件</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FTYPE_DIR		1	<span class="hljs-comment">// 目录</span></span><br><br><br><span class="hljs-comment">// File system super-block (both in-memory and on-disk)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FS_MAGIC	0x68286097	<span class="hljs-comment">// 神秘代码，用来表示这是个合法的文件</span></span><br><br><span class="hljs-keyword">struct</span> <span class="hljs-type">Super</span> &#123;<br>	u_int s_magic;		<span class="hljs-comment">// Magic number: FS_MAGIC</span><br>	u_int s_nblocks;	<span class="hljs-comment">// Total number of blocks on disk</span><br>	<span class="hljs-keyword">struct</span> <span class="hljs-type">File</span> s_root;	<span class="hljs-comment">// Root directory node</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="二-实验难点图示"><a href="#二-实验难点图示" class="headerlink" title="二.实验难点图示"></a>二.实验难点图示</h2><h4 id="1-文件系统层次关系梳理"><a href="#1-文件系统层次关系梳理" class="headerlink" title="1.文件系统层次关系梳理"></a>1.文件系统层次关系梳理</h4><p>文件系统可以分成四个层次：</p>
+<p>文件系统用户接口、文件系统抽象层、文件系统具体实现、文件系统设备接口。</p>
+<p>文件系统的逐级调用关系可以用下图表示：<br><img src="https://img-blog.csdnimg.cn/f7f227bf88e4455da700e8128de850d6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="2-多级目录与多级索引"><a href="#2-多级目录与多级索引" class="headerlink" title="2.多级目录与多级索引"></a>2.多级目录与多级索引</h4><p>多级目录用来管理文件间的层次关系，多级索引用来管理单个文件的数据。两者并不是一个概念。</p>
+<p>在我们的实验中，目录文件的内容是文件控制块<code>struct File</code>，目录文件的每一个数据块由16个文件目录项组成，找到相应的文件名，找到对应文件的FCB，进而找到该文件的数据块。</p>
+<p>多级索引用来管理文件的数据块，我们的实验中使用二级索引机制。在FCB中可以有一级索引数组<code>f_direct[NDIRECT]</code>，和一个二级索引<code>f_indirect</code>，二级索引找到的磁盘块为索引块，这个磁盘块可以存储1024的FCB。</p>
+<p>目录文件综合体现了这一点，以下图来说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/e8249302ff204ed898d588a14ce80be7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="三-代码梳理"><a href="#三-代码梳理" class="headerlink" title="三.代码梳理"></a>三.代码梳理</h2><h4 id="1-磁盘管理"><a href="#1-磁盘管理" class="headerlink" title="1.磁盘管理"></a>1.磁盘管理</h4><p>完成文件系统的第一步就是要能够处理磁盘等外设的信息。</p>
+<ul>
+<li><p>lib&#x2F;syscall_all.c</p>
+<p>处理磁盘的信息，最基本的就是对磁盘进行读写操作。<br><code>sys_write_dev</code>函数用于对外设进行写操作。首先是检查地址的合法性，写入的这段地址需要在规定地址范围之内，接着使用<code>bcopy</code>把数据复制过去即可。<br><code>sys_read_dev</code>函数用于读操作。过程与写类似。</p>
+</li>
+<li><p>fs&#x2F;ide.c</p>
+<p>在实现了对外设基本的读写后，对于磁盘，为了方便上层用户操作，还需要一个封装好的磁盘驱动程序，也就是这里的<code>ide_read</code>和<code>ide_write</code>函数。<br><code>ide_read</code>函数用于从特定的磁盘块读取一定量的数据。首先需要做的就是根据起始扇区和扇区数计算首尾地址，接着是循环读取数据，具体来说首先是向控制磁盘的几个地址写入对应的信息，接着检查磁盘状态，如果正常则读取一个扇区。<br><code>ide_write</code>函数和<code>ide_read</code>函数类似，不同在于，读取磁盘状态是在写操作结束后读取检查。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ed0411419922866ca7bcedf87744bcc5.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>fs&#x2F;fs.c</p>
+<p>完成了磁盘读写后，我们需要对磁盘的信息进行管理，也就是对磁盘块的使用状态进行管理。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c43836eefb38ebf058bcfb560575bf57.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>磁盘最开始的一个扇区被当成是启动扇区和分区表使用；接着是一个超级块，这个超级块结构体定义在include&#x2F;fs.h中，里面定义了魔数、磁盘块数量和根目录的文件控制块。接下来存储的是位图信息，用来记录磁盘块的使用信息，每一个二进制位到代表了一个磁盘块。剩余的内容都是存储数据的数据块。</p>
+<p><code>diskaddr</code>函数用于求出某一个磁盘块的地址。首先需要判断磁盘块号的合法性，接着计算偏移加上基地址即可。块大小为<code>BY2BLK</code>。<br><code>block_is_mapped</code>函数用于检查这个块是否已经映射到了页表中。也就是通过<code>diskaddr</code>计算出地址后使用<code>va_is_mapped</code>检查是否存在于页表。<br><code>block_is_dirty</code>函数用于确定这个块的数据是否已经被修改。具体做法类似，检查页表项的<code>PTE_D</code>标志位即可。<br><code>map_block</code>函数用于分配一页内存映射到一个数据块。首先检查这个数据块是否已经映射，没被映射再使用<code>syscall_mem_alloc</code>完成映射。<br><code>unmap_block</code>函数用于移除数据块的映射关系。首先检查这个数据块是否被映射了；然后检查这个数据块是否被修改过，如果被修改了则需要把数据写入到磁盘块中；接着使用<code>syscall_mem_unmap</code>移除映射关系。<br><code>read_block</code>函数用于读入数据块的数据到内存中。首先需要判断数据块号合法性和数据块是否被使用；然后取得数据块地址；检查这个数据块是否在内存中，如果不在则需要分配一页映射到数据块，然后调用<code>ide_read</code>读入数据；检查<code>blk</code>是否为NULL，如果不是则把虚拟地址赋值。<br><code>write_block</code>函数用于把内存数据块的信息写入到磁盘中。首先判断数据块是否被映射；取得地址后调用<code>ide_write</code>写磁盘块，最后移除这个映射。<br><code>block_is_free</code>函数用于判断数据块是否被释放。具体来说就是检查位图对应的信息是否为1。<br><code>free_block</code>函数用于释放一个数据块，更新位图。也就是将位图的信息置0。<br><code>alloc_block_num</code>函数用于查找分配一个空闲的数据块。也就是从3号开始，搜索位图检查是否有空闲的数据块，并返回空闲数据块号。<br><code>alloc_block</code>函数用于获得一个空闲数据块并映射到内存中。首先通过<code>alloc_block_num</code>获得一个空闲的磁盘块号，然后将对应的磁盘用<code>map_block</code>映射到内存中。<br><code>read_super</code>用于读取和检验超级块。首先使用<code>read_block</code>将超级块信息读入内存；然后检查魔数；最后检查磁盘大小信息是否吻合。<br><code>read_bitmap</code>用于读取和检查位图。类似的，首先是读入位图，然后检查前两个磁盘块是否在使用，最后检查位图块全部在使用。<br><code>check_write_block</code>用于检查<code>wrtie_block</code>函数功能正常。</p>
+<p>到这里，磁盘块的管理操作就完成了。</p>
+</li>
+</ul>
+<h4 id="2-文件系统"><a href="#2-文件系统" class="headerlink" title="2.文件系统"></a>2.文件系统</h4><p>磁盘管理完成后，就可以在这个基础上完成文件系统的搭建了。</p>
+<p>首先是管理文件的文件控制块<code>File</code>。这个结构体定义在include&#x2F;fs.h中，定义了文件名、文件大小、文件类型、文件数据块索引、文件上级目录，为了保证每个文件控制块大小固定，还设置了<code>f_pad</code>，用填充0的方法，保证了文件控制块大小为256字节。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/755aa2dda57d2a42cc867357012fc24b.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><p>fs&#x2F;fsformat.c</p>
+<p>这个文件中定义了实验的文件系统的形式。里面定义了初始化磁盘、大端转换为小端、刷新位图等操作。</p>
+<p><code>reverse</code>函数用于将大端存储的数据转换为小端格式。<br><code>reverse_block</code>函数用于将磁盘块的数据格式都转换过来。<br><code>init_disk</code>函数用于初始化磁盘。<br><code>flush_bitmap</code>函数用于刷新位图。<br><code>finish_fs</code>函数用于将设置好的磁盘写入到镜像文件中。<br><code>save_block_link</code>函数用于将被引用的磁盘块存进文件的索引中。<br><code>make_link_block</code>用于建立一个新的数据块引用。<br><code>create_file</code>用于在给定的目录中创建一个新的文件控制块指针。简单来说就是找到一个数据块中的空闲的文件索引，也就是没有存储信息的文件控制块，返回这个地址；如果没有数据块或者没找到空闲索引则使用<code>make_link_block</code>加入一个新的数据块。<br><code>write_file</code>用于在给定的目录下的一个文件写入到磁盘中。</p>
+<p>通过了解这个文件，我们大概了解了文件和磁盘的关系。</p>
+</li>
+<li><p>fs&#x2F;fs.c</p>
+<p>接下来我们就来完成具体的文件和磁盘交互的函数。</p>
+<p><code>fs_init</code>函数完成了文件系统的初始化，也就是检查了超级块等信息是否正常。<br><code>file_block_walk</code>函数用于查找一个文件中某个文件块所在的磁盘块，并返回磁盘块的虚拟地址，这里所指的文件块就是文件控制块中索引的数据块。对于在直接索引中的文件块，直接返回那个块的地址即可；对于间接索引，如果没有间接索引且需要分配一个数据块，则使用<code>alloc_block</code>分配一个数据块，否则就报错，然后用<code>read_block</code>把这个块读入内存中，获得这个块的虚拟地址，加上文件块号的偏移；最后返回磁盘块的虚拟地址。<br><code>file_map_block</code>函数用于设置<code>*diskbno</code>为指定的文件块，也就是用一个。首先通过<code>file_block_walk</code>找到需要的文件块，如果没有且<code>alloc</code>被置位，则需要新建一个索引块，最后将这个块的编号赋给<code>*diskbno</code>。<br><code>file_clear_block</code>函数用于用于把一个文件块从文件中移除。先找到这个块，然后使用<code>free_block</code>释放这个块。<br><code>file_get_block</code>函数用于将文件块的数据读入<code>blk</code>中，也就是将<code>*blk</code>指向这个文件块。首先是用<code>file_map_block</code>找到磁盘块号，接着用<code>read_block</code>将这个块的地址赋给<code>blk</code>。<br><code>file_dirty</code>函数用于标记某个块为dirty。<code>*(volatile char *)blk = *(volatile char *)blk;</code>，这个倒是很神奇的一条语句，我也不知道怎么就能标记为dirty。<br><code>dir_lookup</code>函数用于查找目录下指定文件名的文件。做法也很简单，就是遍历目录文件的所有文件块，通过<code>file_get_block</code>读取数据，再检查这个块内所有文件控制块的文件名是否符合。<br><code>dir_alloc_file</code>函数用于在特定的目录下建立一个新的文件控制块。过程与<code>dir_lookup</code>类似，找到一个空白的文件控制块返回地址即可，而如果没找到，则需要建立新的文件块存放。<br><code>walk_path</code>函数用于给定一个路径，查找这个路径指向的文件。简单来说就是每一级目录查找下一级目录是否存在，直到找到目标文件。<br><code>file_open</code>函数利用<code>walk_path</code>函数实现打开一个给定路径的文件，也就是返回这个文件控制块的地址。<br><code>file_create</code>函数根据给出的路径创建对应的文件。做法就是通过<code>walk_path</code>找到文件地址，然后使用<code>dir_alloc_file</code>建立一个文件控制块，最后把文件名复制到对应的变量。<br><code>file_truncate</code>函数用于把一个文件截断到一个新的大小。做法也很容易，计算出前后两个文件块的数量，然后使用<code>file_clear_block</code>删除文件块即可，最后设置新的文件大小。<br><code>file_set_size</code>函数完成了将一个文件设置为新的大小。对于大于这个大小的文件，使用<code>file_truncate</code>截断文件，然后需要利用<code>file_flush</code>刷新文件所在的目录。<br><code>file_flush</code>函数用于更新磁盘的内容，具体做法就是遍历文件的所有文件块，检查每个文件块是否为dirty，然后写入磁盘。<br><code>fs_sync</code>函数则是刷新整个文件系统所有文件。<br><code>file_close</code>函数则是为关闭文件做准备，也就是将文件和所在目录刷新。<br><code>file_remove</code>函数则是删除一个文件。首先是通过<code>walk_path</code>找到文件，接着通过<code>file_truncate</code>将文件大小减到0，也就是删掉了文件内容，接着把文件名删除，最后更新这个文件和所在的目录。</p>
+<p>到这里，我们已经能够进行查找文件、删除文件、更新文件(或许保存更贴切？)等宏观的操作，完成了文件系统与磁盘的接口。但对于用户来说，具体打开一个文件，对一个文件进行细致的读写操作我们还没有实现。</p>
+</li>
+</ul>
+<h4 id="3-用户接口"><a href="#3-用户接口" class="headerlink" title="3.用户接口"></a>3.用户接口</h4><p>接下来我们需要设计文件系统与用户的交互接口，对于用户来说，对文件的操作无外乎打开、读写、关闭等操作，而并不太关心文件索引块的信息，因此就有了一个新的结构体：文件描述符<code>Fd</code>。但在此之前，先来看另一个结构体<code>Dev</code>。<br><code>Dev</code>结构体定义了一个外设的信息，如外设的编号、外设名、外设的读写等函数指针。在这个操作系统中，对外设的读写在用户层面来看可以认为就是读写一个文件，而每一种外设都有自己的特定读写函数，我猜测这些信息都存放在了设备控制表中。<br>接下来来看文件描述符<code>Fd</code>。这个结构体首先定义了<code>fd_dev_id</code>，这个指的是文件所在的设备编号，与<code>Dev</code>应该是对应的，接着是<code>fd_offset</code>，这个变量存放着文件读写头的位置，也就是当前读写文件的指针相对于文件头的偏移，最后是<code>fd_omode</code>，这个指的是文件打开的类型，比如只读、只写、读写。</p>
+<ul>
+<li><p>在这个文件中定义了一系列与<code>Fd</code>有关的函数。在文件的开头定义了全局变量<code>devtab</code>，也就是这个操作系统中支持的三种设备：文件<code>devfile</code>、终端<code>devcons</code>、管道<code>devpipe</code>。</p>
+<p><code>dev_lookup</code>函数用于根据设备编号查找设备，也就是在<code>devtab</code>中查找设备。<br><code>fd_alloc</code>函数用于分配一个空闲的描述符。具体做法就是找到没有被使用的页面返回其地址。<br><code>fd_close</code>函数用于关闭一个文件描述符。具体做法就是移除所在页面的映射关系。<br><code>fd_lookup</code>函数用于根据一个文件描述符的编号得到对应的文件描述符。先检查编号的合法性，接着通过<code>INDEX2FD</code>获得描述符的地址，检查对应描述符的页表项有效后返回地址即可。<br><code>fd2data</code>函数通过给定的文件描述符返回文件起始数据地址。<br><code>fd2num</code>函数通过给定的描述符返回其编号。<br><code>num2fd</code>函数通过编号得到描述符。<br><code>close</code>函数通过给定的编号关闭对应的描述符。首先是获得文件描述符和设备；接着关闭设备和文件描述符。<br><code>close_all</code>是关闭所有的文件描述符。<br><code>dup</code>函数用于将一个文件复制到一个新的文件中。首先是找到旧的文件描述符，接着关闭新的描述符，获得新的描述符(这个操作到lab6就清楚了)；接着把旧的描述符映射到新的描述符处；最后把相关的页面都映射过去。<br><code>read</code>函数用于从<code>fd_offset</code>处读取n字节到<code>buf</code>中。同样，先找到描述符和设备；接着检查打开模式<code>fd_omode</code>是否有权限；然后调用<code>*dev_read</code>读取内容，更新<code>fd_offset</code>后返回。这个函数不一定最终会读取n字节。<br><code>readn</code>函数与<code>read</code>函数类似，不过这个函数只有在读取n字节后才会结束。具体来说就是不断调用<code>read</code>使得最后读取的字节数达到n。<br><code>write</code>函数与<code>read</code>类似，操作也基本一致，将读换成写即可。<br><code>seek</code>函数用于调整文件的读写头到指定位置，具体来说就是修改<code>fd_offset</code>。</p>
+<p>到这里，我们就能够通过操作文件描述符来进行对文件内容的读写操作了。但是具体到每一个设备，我们还需要补全具体设备的相关函数即<code>*dev_read</code>等才能实现在用户界面对外设的读写。对于文件类的外设，具体的函数定义在了user&#x2F;file.c中。</p>
+</li>
+</ul>
+<p>在具体实现文件类外设的读写时，实际上并不是直接操作<code>File</code>，而是通过文件系统来完成，为了方便与文件系统交互又设计了一种结构体<code>Filefd</code>，简单来说就是结合了<code>Fd</code>和<code>File</code>的结构体。这样即能够获取文件与用户的交互信息<code>Fd</code>，又能够知道文件与磁盘的交互信息<code>File</code>。而更精巧的是，得到<code>Filefd</code>并不困难，可以直接通过结构体的强制转换，从<code>Fd</code>转到<code>Filefd</code>，原因就在于<code>Filefd</code>利用<code>Fd</code>占位，这样就保证了后面的变量<code>f_fileid</code>和<code>f_file</code>访问地址正确。</p>
+<ul>
+<li><p>user&#x2F;file.c</p>
+<p>文件的开头完善了<code>devfile</code>的信息。具体实现在下面。</p>
+<p><code>open</code>函数实现了根据路径和模式打开一个文件。首先需要通过<code>fd_alloc</code>获得一个文件描述符；接着通过<code>fsipc_open</code>请求文件系统打开文件；接下来通过强制转换得到<code>Filefd</code>，设置相关的变量；最后请求文件系统分配内存将文件载入到内存中，返回描述符编号。<br><code>file_close</code>函数则是关闭一个文件。首先是获得<code>Filefd</code>的信息，接着得到文件数据的起始地址；遍历整个文件，请求文件系统处理dirty信息；请求文件系统关闭文件；如果这时的<code>size</code>还不为0，则需要手动通过<code>syscall_mem_unmap</code>移除文件的映射关系。<br><code>file_read</code>函数用于读取n字节信息。首先是得到文件的大小，检查能不能读n字节；如果可以，则使用<code>user_bcopy</code>将文件的信息复制到<code>buf</code>中。<br><code>read_map</code>函数用于找到文件内容所在的文件块。首先找到描述符，判断设备编号是否吻合，接着利用<code>fd2data</code>找到地址，判断这个地址是否有效，最后返回这个地址。<br><code>file_write</code>函数用于向当前读写的位置写入n字节数据。首先是利用<code>ftruncate</code>将文件扩大，接着把内容写到指定的位置。<br><code>ftruncate</code>函数用于截断或增长文件。首先找到文件描述符转成<code>Filefd</code>；接着请求文件系统申请更多的页面来存储信息或者使用系统调用移除多余的映射。<br><code>remove</code>函数用于删除文件或目录。<br><code>sync</code>函数用于更新磁盘。</p>
+<p>到这里我们就完成了对于文件类设备的各种常用操作。但在开头我也提到，这些操作都需要请求文件系统才能完成。因此我们还缺少处理这些请求的函数。这些函数主要在user&#x2F;fsipc.c和fs&#x2F;serv.c中。</p>
+</li>
+</ul>
+<h4 id="4-文件服务"><a href="#4-文件服务" class="headerlink" title="4.文件服务"></a>4.文件服务</h4><p>服务分为两部分，一边是用户程序将各种请求分类，统一成<code>fsipc</code>和请求类型发送给文件系统，一边是文件系统通过传入的请求类型进入相应的处理函数进行处理。</p>
+<ul>
+<li><p>user&#x2F;fsipc.c</p>
+<p>这个文件就定义了一系列发送请求的函数，最终都统一成<code>fsipc</code>函数发送。</p>
+<p><code>fsipc</code>函数就是最终发送请求的函数，通过进程间通信完成，也就是利用<code>ipc_send</code>向文件系统进程发送信息，然后利用<code>ipc_recv</code>返回处理结果。<br>而剩下的函数则大同小异，都是预处理一些信息，然后调用<code>fsipc</code>完成。</p>
+</li>
+<li><p>fs&#x2F;serv.c</p>
+<p>这个文件定义了文件系统处理一系列请求的函数。主体函数是<code>serve</code>函数，这个函数是一个死循环，不断通过<code>ipc_recv</code>接收请求，申请一页临时处理内存，根据请求类型调用对应的处理函数完成处理，最后释放这块内存。</p>
+<p>在文件开头定义了一个结构体<code>Open</code>，这个结构体就是文件系统内部处理文件时描述文件的结构体，包含了文件控制块、文件编号、打开方式、<code>Filefd</code>。从这里我们会发现，对于同一个文件，不同的视角来看，就会有不同的信息，比如底层看到的是文件控制块<code>File</code>，用户看到的是描述符<code>Fd</code>和<code>Filefd</code>，文件服务系统看到的是<code>Open</code>。</p>
+<p><code>serve_init</code>函数用于初始化文件服务进程。<br><code>open_alloc</code>函数用于分配一个<code>Open</code>，也就是找到一个空闲的<code>Open</code>结构体。<br><code>open_lookup</code>函数用于查找一个进程打开的文件。</p>
+<p><code>serve_open</code>函数用于处理打开文件的请求。首先得到文件路径，然后分配一个<code>Open</code>结构体，接着调用<code>file_open</code>打开文件，最后天写相关的信息，再通过<code>ipc_send</code>发回给用户进程即可。<br><code>serve_map</code>函数用于获得一个数据块。首先用<code>open_lookup</code>查找文件的<code>Open</code>结构体，接着计算需要查找的文件块，并通过<code>file_get_block</code>获得，把结果发送给用户。<br>剩下的函数基本是一个写法，通过<code>open_lookup</code>查找文件信息，调用fs.c中的函数完成具体处理，再通过<code>ipc_send</code>返回信息给用户进程。</p>
+</li>
+</ul>
+<p>到这里，用户进程与文件服务系统进程的交互也完成了，现在一个用户进程就能够完成从磁盘读取一个文件、加载到内存中、打开这个文件对文件进行读写操作、并写回磁盘关闭文件的完整操作。文件系统就算是搭建完成了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS-Lab5</div>
+      <div>http://example.com/2022/07/17/OS-Lab5/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月17日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab4-challenge/" title="OS-Lab4-challenge">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OS-Lab4-challenge</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab4/" title="OS-Lab4">
+                        <span class="hidden-mobile">OS-Lab4</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
