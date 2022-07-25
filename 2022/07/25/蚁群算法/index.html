@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一种由自然界中蚂蚁觅食的行为而启发的仿生学算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蚁群算法">
+<meta property="og:url" content="http://example.com/2022/07/25/%E8%9A%81%E7%BE%A4%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="一种由自然界中蚂蚁觅食的行为而启发的仿生学算法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-79a1fe8f56260a0ce2773947db9c7794_r.jpg">
+<meta property="article:published_time" content="2022-07-25T13:03:44.000Z">
+<meta property="article:modified_time" content="2022-07-25T13:19:09.174Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="数学建模">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic1.zhimg.com/v2-79a1fe8f56260a0ce2773947db9c7794_r.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>蚁群算法 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-notebook"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-th-large"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="蚁群算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-25 21:03" pubdate>
+          星期一, 七月 25日 2022, 9:03 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          8.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          72 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">蚁群算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="蚁群算法（ACO）"><a href="#蚁群算法（ACO）" class="headerlink" title="蚁群算法（ACO）"></a>蚁群算法（ACO）</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>蚁群算法（Ant Clony Optimization， ACO）是一种群智能算法，它是由一群无智能或有轻微智能的个体（Agent）通过相互协作而表现出智能行为，从而为求解复杂问题提供了一个新的可能性。蚁群算法最早是由意大利学者Colorni A., Dorigo M. 等于1991年提出。经过20多年的发展，蚁群算法在理论以及应用研究上已经得到巨大的进步。</p>
+<p>蚁群算法是一种仿生学算法，是由自然界中蚂蚁觅食的行为而启发的。在自然界中，蚂蚁觅食过程中，蚁群总能够按照寻找到一条从蚁巢和食物源的最优路径。下图显示了这样一个觅食的过程。</p>
+<p><img src="https://pic1.zhimg.com/v2-79a1fe8f56260a0ce2773947db9c7794_r.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>在图（a）中，有一群蚂蚁，假如A是蚁巢，E是食物源（反之亦然）。这群蚂蚁将沿着蚁巢和食物源之间的直线路径行驶。假如在A和E之间突然出现了一个障碍物（图（b）），那么，在B点（或D点）的蚂蚁将要做出决策，到底是向左行驶还是向右行驶？由于一开始路上没有前面蚂蚁留下的 信息素（pheromone），蚂蚁朝着两个方向行进的概率是相等的。但是当有蚂蚁走过时，它将会在它行进的路上释放出信息素，并且这种信息素会议一定的速率散发掉。信息素是蚂蚁之间交流的工具之一。它后面的蚂蚁通过路上信息素的浓度，做出决策，往左还是往右。很明显，沿着短边的的路径上信息素将会越来越浓（图（c）），从而吸引了越来越多的蚂蚁沿着这条路径行驶。</p>
+<h3 id="2-原理"><a href="#2-原理" class="headerlink" title="2.原理"></a>2.原理</h3><p>假如蚁群中所有蚂蚁的数量为m，所有城市之间的信息素用矩阵pheromone表示，最短路径为bestLength，最佳路径为bestTour。每只蚂蚁都有自己的内存，内存中用一个禁忌表（Tabu）来存储该蚂蚁已经访问过的城市，表示其在以后的搜索中将不能访问这些城市；还有用另外一个允许访问的城市表（Allowed）来存储它还可以访问的城市；另外还用一个矩阵（Delta）来存储它在一个循环（或者迭代）中给所经过的路径释放的信息素；还有另外一些数据，例如一些控制参数(α，β，ρ，Q)，该蚂蚁行走玩全程的总成本或距离（tourLength），等等。假定算法总共运行MAX_GEN次，运行时间为t。</p>
+<p>蚁群算法计算过程如下：</p>
+<p>（1）初始化。</p>
+<p>（2）为每只蚂蚁选择下一个节点。</p>
+<p>（3）更新信息素矩阵。</p>
+<p>（4）检查终止条件</p>
+<blockquote>
+<p>如果达到最大代数MAX_GEN，算法终止，转到第（5）步；否则，重新初始化所有的蚂蚁的Delt矩阵所有元素初始化为0，Tabu表清空，Allowed表中加入所有的城市节点。随机选择它们的起始位置（也可以人工指定）。在Tabu中加入起始节点，Allowed中去掉该起始节点，重复执行(2),(3),(4)步。</p>
+</blockquote>
+<p>（5）输出最优值</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> copy<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> tkinter <span class="hljs-comment">#//GUI模块</span><br><span class="hljs-keyword">import</span> threading<br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> reduce<br><br><br><span class="hljs-comment"># 参数</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">ALPHA:信息启发因子，值越大，则蚂蚁选择之前走过的路径可能性就越大</span><br><span class="hljs-string">      ，值越小，则蚁群搜索范围就会减少，容易陷入局部最优</span><br><span class="hljs-string">BETA:Beta值越大，蚁群越就容易选择局部较短路径，这时算法收敛速度会</span><br><span class="hljs-string">     加快，但是随机性不高，容易得到局部的相对最优</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br>(ALPHA, BETA, RHO, Q) = (<span class="hljs-number">1.0</span>,<span class="hljs-number">2.0</span>,<span class="hljs-number">0.5</span>,<span class="hljs-number">100.0</span>)<br><span class="hljs-comment"># 城市数，蚁群</span><br>(city_num, ant_num) = (<span class="hljs-number">50</span>,<span class="hljs-number">50</span>)<br>distance_x = [<br>    <span class="hljs-number">178</span>,<span class="hljs-number">272</span>,<span class="hljs-number">176</span>,<span class="hljs-number">171</span>,<span class="hljs-number">650</span>,<span class="hljs-number">499</span>,<span class="hljs-number">267</span>,<span class="hljs-number">703</span>,<span class="hljs-number">408</span>,<span class="hljs-number">437</span>,<span class="hljs-number">491</span>,<span class="hljs-number">74</span>,<span class="hljs-number">532</span>,<br>    <span class="hljs-number">416</span>,<span class="hljs-number">626</span>,<span class="hljs-number">42</span>,<span class="hljs-number">271</span>,<span class="hljs-number">359</span>,<span class="hljs-number">163</span>,<span class="hljs-number">508</span>,<span class="hljs-number">229</span>,<span class="hljs-number">576</span>,<span class="hljs-number">147</span>,<span class="hljs-number">560</span>,<span class="hljs-number">35</span>,<span class="hljs-number">714</span>,<br>    <span class="hljs-number">757</span>,<span class="hljs-number">517</span>,<span class="hljs-number">64</span>,<span class="hljs-number">314</span>,<span class="hljs-number">675</span>,<span class="hljs-number">690</span>,<span class="hljs-number">391</span>,<span class="hljs-number">628</span>,<span class="hljs-number">87</span>,<span class="hljs-number">240</span>,<span class="hljs-number">705</span>,<span class="hljs-number">699</span>,<span class="hljs-number">258</span>,<br>    <span class="hljs-number">428</span>,<span class="hljs-number">614</span>,<span class="hljs-number">36</span>,<span class="hljs-number">360</span>,<span class="hljs-number">482</span>,<span class="hljs-number">666</span>,<span class="hljs-number">597</span>,<span class="hljs-number">209</span>,<span class="hljs-number">201</span>,<span class="hljs-number">492</span>,<span class="hljs-number">294</span>]<br>distance_y = [<br>    <span class="hljs-number">170</span>,<span class="hljs-number">395</span>,<span class="hljs-number">198</span>,<span class="hljs-number">151</span>,<span class="hljs-number">242</span>,<span class="hljs-number">556</span>,<span class="hljs-number">57</span>,<span class="hljs-number">401</span>,<span class="hljs-number">305</span>,<span class="hljs-number">421</span>,<span class="hljs-number">267</span>,<span class="hljs-number">105</span>,<span class="hljs-number">525</span>,<br>    <span class="hljs-number">381</span>,<span class="hljs-number">244</span>,<span class="hljs-number">330</span>,<span class="hljs-number">395</span>,<span class="hljs-number">169</span>,<span class="hljs-number">141</span>,<span class="hljs-number">380</span>,<span class="hljs-number">153</span>,<span class="hljs-number">442</span>,<span class="hljs-number">528</span>,<span class="hljs-number">329</span>,<span class="hljs-number">232</span>,<span class="hljs-number">48</span>,<br>    <span class="hljs-number">498</span>,<span class="hljs-number">265</span>,<span class="hljs-number">343</span>,<span class="hljs-number">120</span>,<span class="hljs-number">165</span>,<span class="hljs-number">50</span>,<span class="hljs-number">433</span>,<span class="hljs-number">63</span>,<span class="hljs-number">491</span>,<span class="hljs-number">275</span>,<span class="hljs-number">348</span>,<span class="hljs-number">222</span>,<span class="hljs-number">288</span>,<br>    <span class="hljs-number">490</span>,<span class="hljs-number">213</span>,<span class="hljs-number">524</span>,<span class="hljs-number">244</span>,<span class="hljs-number">114</span>,<span class="hljs-number">104</span>,<span class="hljs-number">552</span>,<span class="hljs-number">70</span>,<span class="hljs-number">425</span>,<span class="hljs-number">227</span>,<span class="hljs-number">331</span>]<br><span class="hljs-comment">#城市距离和信息素</span><br>distance_graph = [ [<span class="hljs-number">0.0</span> <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)] <span class="hljs-keyword">for</span> raw <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)]<br>pheromone_graph = [ [<span class="hljs-number">1.0</span> <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)] <span class="hljs-keyword">for</span> raw <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)]<br><br><br><br><span class="hljs-comment">#----------- 蚂蚁 -----------</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Ant</span>(<span class="hljs-title class_ inherited__">object</span>):<br><br>    <span class="hljs-comment"># 初始化</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,ID</span>):<br><br>        self.ID = ID                 <span class="hljs-comment"># ID</span><br>        self.__clean_data()          <span class="hljs-comment"># 随机初始化出生点</span><br><br>    <span class="hljs-comment"># 初始数据</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__clean_data</span>(<span class="hljs-params">self</span>):<br><br>        self.path = []               <span class="hljs-comment"># 当前蚂蚁的路径           </span><br>        self.total_distance = <span class="hljs-number">0.0</span>    <span class="hljs-comment"># 当前路径的总距离</span><br>        self.move_count = <span class="hljs-number">0</span>          <span class="hljs-comment"># 移动次数</span><br>        self.current_city = -<span class="hljs-number">1</span>       <span class="hljs-comment"># 当前停留的城市</span><br>        self.open_table_city = [<span class="hljs-literal">True</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)] <span class="hljs-comment"># 探索城市的状态</span><br><br>        city_index = random.randint(<span class="hljs-number">0</span>,city_num-<span class="hljs-number">1</span>) <span class="hljs-comment"># 随机初始出生点</span><br>        self.current_city = city_index<br>        self.path.append(city_index)<br>        self.open_table_city[city_index] = <span class="hljs-literal">False</span><br>        self.move_count = <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 选择下一个城市</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__choice_next_city</span>(<span class="hljs-params">self</span>):<br><br>        next_city = -<span class="hljs-number">1</span><br>        select_citys_prob = [<span class="hljs-number">0.0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)]  <span class="hljs-comment">#存储去下个城市的概率</span><br>        total_prob = <span class="hljs-number">0.0</span><br><br>        <span class="hljs-comment"># 获取去下一个城市的概率</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>            <span class="hljs-keyword">if</span> self.open_table_city[i]:<br>                <span class="hljs-keyword">try</span> :<br>                    <span class="hljs-comment"># 计算概率：与信息素浓度成正比，与距离成反比</span><br>                    select_citys_prob[i] = <span class="hljs-built_in">pow</span>(pheromone_graph[self.current_city][i], ALPHA) * <span class="hljs-built_in">pow</span>((<span class="hljs-number">1.0</span>/distance_graph[self.current_city][i]), BETA)<br>                    total_prob += select_citys_prob[i]<br>                <span class="hljs-keyword">except</span> ZeroDivisionError <span class="hljs-keyword">as</span> e:<br>                    <span class="hljs-built_in">print</span> (<span class="hljs-string">&#x27;Ant ID: &#123;ID&#125;, current city: &#123;current&#125;, target city: &#123;target&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(ID = self.ID, current = self.current_city, target = i))<br>                    sys.exit(<span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># 轮盘选择城市</span><br>        <span class="hljs-keyword">if</span> total_prob &gt; <span class="hljs-number">0.0</span>:<br>            <span class="hljs-comment"># 产生一个随机概率,0.0-total_prob</span><br>            temp_prob = random.uniform(<span class="hljs-number">0.0</span>, total_prob)<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>                <span class="hljs-keyword">if</span> self.open_table_city[i]:<br>                    <span class="hljs-comment"># 轮次相减</span><br>                    temp_prob -= select_citys_prob[i]<br>                    <span class="hljs-keyword">if</span> temp_prob &lt; <span class="hljs-number">0.0</span>:<br>                        next_city = i<br>                        <span class="hljs-keyword">break</span><br><br>        <span class="hljs-comment"># 未从概率产生，顺序选择一个未访问城市</span><br>        <span class="hljs-comment"># if next_city == -1:</span><br>        <span class="hljs-comment">#     for i in range(city_num):</span><br>        <span class="hljs-comment">#         if self.open_table_city[i]:</span><br>        <span class="hljs-comment">#             next_city = i</span><br>        <span class="hljs-comment">#             break</span><br><br>        <span class="hljs-keyword">if</span> (next_city == -<span class="hljs-number">1</span>):<br>            next_city = random.randint(<span class="hljs-number">0</span>, city_num - <span class="hljs-number">1</span>)<br>            <span class="hljs-keyword">while</span> ((self.open_table_city[next_city]) == <span class="hljs-literal">False</span>):  <span class="hljs-comment"># if==False,说明已经遍历过了</span><br>                next_city = random.randint(<span class="hljs-number">0</span>, city_num - <span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># 返回下一个城市序号</span><br>        <span class="hljs-keyword">return</span> next_city<br><br>    <span class="hljs-comment"># 计算路径总距离</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__cal_total_distance</span>(<span class="hljs-params">self</span>):<br><br>        temp_distance = <span class="hljs-number">0.0</span><br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, city_num):<br>            start, end = self.path[i], self.path[i-<span class="hljs-number">1</span>]<br>            temp_distance += distance_graph[start][end]<br><br>        <span class="hljs-comment"># 回路</span><br>        end = self.path[<span class="hljs-number">0</span>]<br>        temp_distance += distance_graph[start][end]<br>        self.total_distance = temp_distance<br><br><br>    <span class="hljs-comment"># 移动操作</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__move</span>(<span class="hljs-params">self, next_city</span>):<br><br>        self.path.append(next_city)<br>        self.open_table_city[next_city] = <span class="hljs-literal">False</span><br>        self.total_distance += distance_graph[self.current_city][next_city]<br>        self.current_city = next_city<br>        self.move_count += <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 搜索路径</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">search_path</span>(<span class="hljs-params">self</span>):<br><br>        <span class="hljs-comment"># 初始化数据</span><br>        self.__clean_data()<br><br>        <span class="hljs-comment"># 搜素路径，遍历完所有城市为止</span><br>        <span class="hljs-keyword">while</span> self.move_count &lt; city_num:<br>            <span class="hljs-comment"># 移动到下一个城市</span><br>            next_city =  self.__choice_next_city()<br>            self.__move(next_city)<br><br>        <span class="hljs-comment"># 计算路径总长度</span><br>        self.__cal_total_distance()<br><br><span class="hljs-comment">#----------- TSP问题 -----------</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TSP</span>(<span class="hljs-title class_ inherited__">object</span>):<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, root, width = <span class="hljs-number">800</span>, height = <span class="hljs-number">600</span>, n = city_num</span>):<br><br>        <span class="hljs-comment"># 创建画布</span><br>        self.root = root                               <br>        self.width = width      <br>        self.height = height<br>        <span class="hljs-comment"># 城市数目初始化为city_num</span><br>        self.n = n<br>        <span class="hljs-comment"># tkinter.Canvas</span><br>        self.canvas = tkinter.Canvas(<br>                root,<br>                width = self.width,<br>                height = self.height,<br>                bg = <span class="hljs-string">&quot;#EBEBEB&quot;</span>,             <span class="hljs-comment"># 背景白色 </span><br>                xscrollincrement = <span class="hljs-number">1</span>,<br>                yscrollincrement = <span class="hljs-number">1</span><br>            )<br>        self.canvas.pack(expand = tkinter.YES, fill = tkinter.BOTH)<br>        self.title(<span class="hljs-string">&quot;TSP蚁群算法(n:初始化 e:开始搜索 s:停止搜索 q:退出程序)&quot;</span>)<br>        self.__r = <span class="hljs-number">5</span><br>        self.__lock = threading.RLock()     <span class="hljs-comment"># 线程锁</span><br><br>        self.__bindEvents()<br>        self.new()<br><br>        <span class="hljs-comment"># 计算城市之间的距离</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>                temp_distance = <span class="hljs-built_in">pow</span>((distance_x[i] - distance_x[j]), <span class="hljs-number">2</span>) + <span class="hljs-built_in">pow</span>((distance_y[i] - distance_y[j]), <span class="hljs-number">2</span>)<br>                temp_distance = <span class="hljs-built_in">pow</span>(temp_distance, <span class="hljs-number">0.5</span>)<br>                distance_graph[i][j] =<span class="hljs-built_in">float</span>(<span class="hljs-built_in">int</span>(temp_distance + <span class="hljs-number">0.5</span>))<br><br>    <span class="hljs-comment"># 按键响应程序</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__bindEvents</span>(<span class="hljs-params">self</span>):<br><br>        self.root.bind(<span class="hljs-string">&quot;q&quot;</span>, self.quite)        <span class="hljs-comment"># 退出程序</span><br>        self.root.bind(<span class="hljs-string">&quot;n&quot;</span>, self.new)          <span class="hljs-comment"># 初始化</span><br>        self.root.bind(<span class="hljs-string">&quot;e&quot;</span>, self.search_path)  <span class="hljs-comment"># 开始搜索</span><br>        self.root.bind(<span class="hljs-string">&quot;s&quot;</span>, self.stop)         <span class="hljs-comment"># 停止搜索</span><br><br>    <span class="hljs-comment"># 更改标题</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">title</span>(<span class="hljs-params">self, s</span>):<br><br>        self.root.title(s)<br><br>    <span class="hljs-comment"># 初始化</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">new</span>(<span class="hljs-params">self, evt = <span class="hljs-literal">None</span></span>):<br><br>        <span class="hljs-comment"># 停止线程</span><br>        self.__lock.acquire()<br>        self.__running = <span class="hljs-literal">False</span><br>        self.__lock.release()<br><br>        self.clear()     <span class="hljs-comment"># 清除信息 </span><br>        self.nodes = []  <span class="hljs-comment"># 节点坐标</span><br>        self.nodes2 = [] <span class="hljs-comment"># 节点对象</span><br><br>        <span class="hljs-comment"># 初始化城市节点</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(distance_x)):<br>            <span class="hljs-comment"># 在画布上随机初始坐标</span><br>            x = distance_x[i]<br>            y = distance_y[i]<br>            self.nodes.append((x, y))<br>            <span class="hljs-comment"># 生成节点椭圆，半径为self.__r</span><br>            node = self.canvas.create_oval(x - self.__r,<br>                    y - self.__r, x + self.__r, y + self.__r,<br>                    fill = <span class="hljs-string">&quot;#ff0000&quot;</span>,      <span class="hljs-comment"># 填充红色</span><br>                    outline = <span class="hljs-string">&quot;#000000&quot;</span>,   <span class="hljs-comment"># 轮廓白色</span><br>                    tags = <span class="hljs-string">&quot;node&quot;</span>,<br>                )<br>            self.nodes2.append(node)<br>            <span class="hljs-comment"># 显示坐标</span><br>            self.canvas.create_text(x,y-<span class="hljs-number">10</span>,              <span class="hljs-comment"># 使用create_text方法在坐标（302，77）处绘制文字</span><br>                    text = <span class="hljs-string">&#x27;(&#x27;</span>+<span class="hljs-built_in">str</span>(x)+<span class="hljs-string">&#x27;,&#x27;</span>+<span class="hljs-built_in">str</span>(y)+<span class="hljs-string">&#x27;)&#x27;</span>,    <span class="hljs-comment"># 所绘制文字的内容</span><br>                    fill = <span class="hljs-string">&#x27;black&#x27;</span>                       <span class="hljs-comment"># 所绘制文字的颜色为灰色</span><br>                )<br><br>        <span class="hljs-comment"># 顺序连接城市</span><br>        <span class="hljs-comment">#self.line(range(city_num))</span><br><br>        <span class="hljs-comment"># 初始城市之间的距离和信息素</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>                pheromone_graph[i][j] = <span class="hljs-number">1.0</span><br><br>        self.ants = [Ant(ID) <span class="hljs-keyword">for</span> ID <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(ant_num)]  <span class="hljs-comment"># 初始蚁群</span><br>        self.best_ant = Ant(-<span class="hljs-number">1</span>)                          <span class="hljs-comment"># 初始最优解</span><br>        self.best_ant.total_distance = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">31</span>           <span class="hljs-comment"># 初始最大距离</span><br>        self.<span class="hljs-built_in">iter</span> = <span class="hljs-number">1</span>                                    <span class="hljs-comment"># 初始化迭代次数 </span><br><br>    <span class="hljs-comment"># 将节点按order顺序连线</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">line</span>(<span class="hljs-params">self, order</span>):<br>        <span class="hljs-comment"># 删除原线</span><br>        self.canvas.delete(<span class="hljs-string">&quot;line&quot;</span>)<br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">line2</span>(<span class="hljs-params">i1, i2</span>):<br>            p1, p2 = self.nodes[i1], self.nodes[i2]<br>            self.canvas.create_line(p1, p2, fill = <span class="hljs-string">&quot;#000000&quot;</span>, tags = <span class="hljs-string">&quot;line&quot;</span>)<br>            <span class="hljs-keyword">return</span> i2<br><br>        <span class="hljs-comment"># order[-1]为初始值</span><br>        reduce(line2, order, order[-<span class="hljs-number">1</span>])<br><br>    <span class="hljs-comment"># 清除画布</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">clear</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> self.canvas.find_all():<br>            self.canvas.delete(item)<br><br>    <span class="hljs-comment"># 退出程序</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">quite</span>(<span class="hljs-params">self, evt</span>):<br>        self.__lock.acquire()<br>        self.__running = <span class="hljs-literal">False</span><br>        self.__lock.release()<br>        self.root.destroy()<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">u&quot;\n程序已退出...&quot;</span>)<br>        sys.exit()<br><br>    <span class="hljs-comment"># 停止搜索</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">stop</span>(<span class="hljs-params">self, evt</span>):<br>        self.__lock.acquire()<br>        self.__running = <span class="hljs-literal">False</span><br>        self.__lock.release()<br><br>    <span class="hljs-comment"># 开始搜索</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">search_path</span>(<span class="hljs-params">self, evt = <span class="hljs-literal">None</span></span>):<br><br>        <span class="hljs-comment"># 开启线程</span><br>        self.__lock.acquire()<br>        self.__running = <span class="hljs-literal">True</span><br>        self.__lock.release()<br><br>        <span class="hljs-keyword">while</span> self.__running:<br>            <span class="hljs-comment"># 遍历每一只蚂蚁</span><br>            <span class="hljs-keyword">for</span> ant <span class="hljs-keyword">in</span> self.ants:<br>                <span class="hljs-comment"># 搜索一条路径</span><br>                ant.search_path()<br>                <span class="hljs-comment"># 与当前最优蚂蚁比较</span><br>                <span class="hljs-keyword">if</span> ant.total_distance &lt; self.best_ant.total_distance:<br>                    <span class="hljs-comment"># 更新最优解</span><br>                    self.best_ant = copy.deepcopy(ant)<br>            <span class="hljs-comment"># 更新信息素</span><br>            self.__update_pheromone_gragh()<br>            <span class="hljs-built_in">print</span> (<span class="hljs-string">u&quot;迭代次数：&quot;</span>,self.<span class="hljs-built_in">iter</span>,<span class="hljs-string">u&quot;最佳路径总距离：&quot;</span>,<span class="hljs-built_in">int</span>(self.best_ant.total_distance))<br>            <span class="hljs-comment"># 连线</span><br>            self.line(self.best_ant.path)<br>            <span class="hljs-comment"># 设置标题</span><br>            self.title(<span class="hljs-string">&quot;TSP蚁群算法(n:随机初始 e:开始搜索 s:停止搜索 q:退出程序) 迭代次数: %d&quot;</span> % self.<span class="hljs-built_in">iter</span>)<br>            <span class="hljs-comment"># 更新画布</span><br>            self.canvas.update()<br>            self.<span class="hljs-built_in">iter</span> += <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 更新信息素</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__update_pheromone_gragh</span>(<span class="hljs-params">self</span>):<br><br>        <span class="hljs-comment"># 获取每只蚂蚁在其路径上留下的信息素</span><br>        temp_pheromone = [[<span class="hljs-number">0.0</span> <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)] <span class="hljs-keyword">for</span> raw <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num)]<br>        <span class="hljs-keyword">for</span> ant <span class="hljs-keyword">in</span> self.ants:<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,city_num):<br>                start, end = ant.path[i-<span class="hljs-number">1</span>], ant.path[i]<br>                <span class="hljs-comment"># 在路径上的每两个相邻城市间留下信息素，与路径总距离反比</span><br>                temp_pheromone[start][end] += Q / ant.total_distance<br>                temp_pheromone[end][start] = temp_pheromone[start][end]<br><br>        <span class="hljs-comment"># 更新所有城市之间的信息素，旧信息素衰减加上新迭代信息素</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(city_num):<br>                pheromone_graph[i][j] = pheromone_graph[i][j] * RHO + temp_pheromone[i][j]<br><br>    <span class="hljs-comment"># 主循环</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">mainloop</span>(<span class="hljs-params">self</span>):<br>        self.root.mainloop()<br><br><span class="hljs-comment">#----------- 程序的入口处 -----------</span><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br><br><br>    TSP(tkinter.Tk()).mainloop()<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">#数学建模</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>蚁群算法</div>
+      <div>http://example.com/2022/07/25/蚁群算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月25日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/25/ARIMA%E6%A8%A1%E5%9E%8B/" title="ARIMA模型">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ARIMA模型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/25/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E7%AE%97%E6%B3%95/" title="模拟退火算法">
+                        <span class="hidden-mobile">模拟退火算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/metowolf/Metingjs@1.2/dist/Meting.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="计算数学中用于解决最优化的搜索算法，最为经典的智能算法之一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="粒子群算法">
+<meta property="og:url" content="http://example.com/2022/07/24/%E7%B2%92%E5%AD%90%E7%BE%A4%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="计算数学中用于解决最优化的搜索算法，最为经典的智能算法之一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=C_1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=C_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=r_1,r_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-00bc7215612d405a1b4b1d09270eaaee_720w.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d-1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d-1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%5Cleft(+d+%5Cright)+=x%5Cleft(+d-1+%5Cright)++v%5Cleft(+d-1+%5Cright)+%5Ccdot+t%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v(d)=w%5Ccdot+v(d-1)+C_1%5Ccdot+r_1%5Ccdot+(pbest(d)-x(d))+C_2%5Ccdot+r_2%5Ccdot+(gbest(d)-x(d))+%5C%5C">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-aae3067a40396e9c98bf531c606b299e_b.webp">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-33c5b580dcf13f4aa9dceffedeb84075_720w.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=n">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=c_1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=c_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_%7Bi%7D%5E%7Bd%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f%5Cleft(+x+%5Cright)+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=pbest_%7Bi%7D%5E%7Bd%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=gbest%5Ed">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=wv_%7Bi%7D%5E%7Bd-1%7D+c_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+c_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d+1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_%7Bi%7D%5E%7Bd+1%7D=x_%7Bi%7D%5E%7Bd%7D+v_%7Bi%7D%5E%7Bd%7D%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=wv_%7Bi%7D%5E%7Bd-1%7D+%5Cboldsymbol%7Bc%7D_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+%5Cboldsymbol%7Bc%7D_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=%5Cboldsymbol%7Bw%7Dv_%7Bi%7D%5E%7Bd-1%7D+c_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+c_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)+%5C%5C">
+<meta property="article:published_time" content="2022-07-24T11:18:11.000Z">
+<meta property="article:modified_time" content="2022-07-24T13:58:52.669Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="数学建模">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=C_1">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>粒子群算法 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-notebook"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-th-large"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="粒子群算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-24 19:18" pubdate>
+          星期日, 七月 24日 2022, 7:18 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">粒子群算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="粒子群算法-PSO"><a href="#粒子群算法-PSO" class="headerlink" title="粒子群算法(PSO)"></a>粒子群算法(PSO)</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>1995年，美国学者Kennedy和Eberhart共同提出了粒子群算法，其基本思想源于对鸟类群体行为进行建模与仿真的研究结果的启发。</p>
+<p>粒子群优化算法(PSO：Particle swarm optimization) 是一种进化计算技术，源于对鸟群捕食的行为研究。它的核心思想是利用群体中的个体对信息的共享使整个群体的运动在问题求解空间中产生从无序到有序的演化过程，从而获得问题的可行解。</p>
+<p>PSO的优势在于简单容易实现并且没有许多参数的调节。目前已被广泛应用于函数优化、神经网络训练、模糊系统控制以及其他遗传算法的应用领域。</p>
+<p>现在我们赋予鸟儿一些参数：</p>
+<ul>
+<li><img src="https://www.zhihu.com/equation?tex=C_1" srcset="/img/loading.gif" lazyload alt="[公式]">：个体学习因子，也称为个体加速因子。这个因子越大，鸟儿越倾向于飞往它自己曾去的食物量最多的地方</li>
+<li><img src="https://www.zhihu.com/equation?tex=C_2" srcset="/img/loading.gif" lazyload alt="[公式]">：社会学系因子，也成为社会加速因子。这个因子越大，鸟儿越倾向于飞往其他鸟儿（同伴们）曾去的食物量最多的地方</li>
+<li><img src="https://www.zhihu.com/equation?tex=r_1,r_2" srcset="/img/loading.gif" lazyload alt="[公式]">：[0,1]上的随机数。随机代表着鸟儿比较佛系，他也不知道飞哪里</li>
+<li><img src="https://www.zhihu.com/equation?tex=w" srcset="/img/loading.gif" lazyload alt="[公式]">：惯性权重，也叫惯性系数，这个数越大，代表着它不容易更改之前的运动路线，更倾向于探索未知领域。</li>
+</ul>
+<p>因此图像变成了这样：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-00bc7215612d405a1b4b1d09270eaaee_720w.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>因此这只鸟第<img src="https://www.zhihu.com/equation?tex=d" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置&#x3D;第<img src="https://www.zhihu.com/equation?tex=d-1" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置+第<img src="https://www.zhihu.com/equation?tex=d-1" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置*运动的时间(每一步运动的时间t一般取1) <img src="https://www.zhihu.com/equation?tex=x%5Cleft(+d+%5Cright)+=x%5Cleft(+d-1+%5Cright)++v%5Cleft(+d-1+%5Cright)+%5Ccdot+t%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>这只鸟第<img src="https://www.zhihu.com/equation?tex=d" srcset="/img/loading.gif" lazyload alt="[公式]">步的速度&#x3D;上一步自身的速度惯性+自我认知部分+社会认知部分</p>
+<p><img src="https://www.zhihu.com/equation?tex=v(d)=w%5Ccdot+v(d-1)+C_1%5Ccdot+r_1%5Ccdot+(pbest(d)-x(d))+C_2%5Ccdot+r_2%5Ccdot+(gbest(d)-x(d))+%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>每运动一次，位置P和Q都会不断发生变化，最后会收敛到一个位置，这个位置就是食物最多的一个位置，如下动图所示：</p>
+<p><img src="https://pic3.zhimg.com/v2-aae3067a40396e9c98bf531c606b299e_b.webp" srcset="/img/loading.gif" lazyload alt="动图"></p>
+<h3 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2.基本概念"></a>2.基本概念</h3><p>​        每只鸟在某处位置能够找到食物的可能可以通过适应值来刻画，每只鸟能够记住自己的觅食位置，并且找到其中的最佳位置<strong>（</strong>局部最优，相当于极值点），鸟群中所有个体的最佳位置就可以看做整个鸟群的最佳觅食点（全局最优，相当于最值点）。可以预见的是，整个鸟群的觅食活动总体上一定是往这个全局最优的觅食区域运动的，通过鸟群觅食位置的不断移动即不断地迭代，速度的不断更新，鸟群往该最优位置步步逼近。</p>
+<ul>
+<li>粒子：优化问题的候选解</li>
+<li>位置：候选解所在的位置</li>
+<li>速度：候选解移动的速度</li>
+<li>适应度：评价粒子优劣的值，一般设置为目标函数值</li>
+<li>个体最佳位置：单个粒子迄今为止找到的最佳位置</li>
+<li>群体最佳位置：所有粒子迄今为止找到的最佳位置</li>
+</ul>
+<h3 id="3-算法流程"><a href="#3-算法流程" class="headerlink" title="3.算法流程"></a>3.算法流程</h3><p>流程图如下：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-33c5b580dcf13f4aa9dceffedeb84075_720w.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>​    1.初始化粒子群。包括粒子的初始位置及速度，惯性因子等参数值</p>
+<p>粒子数M一般选取20~40个，不过对于一些特殊的难题需要更多的粒子，粒子数量越多，搜索范围就越广，越容易找到全局最优解，但是也会带来更大的计算消耗。</p>
+<ol start="2">
+<li><p>评价各个粒子的初始适应值。</p>
+</li>
+<li><p>将初始的适应值作为各个粒子的局部最优解，保存各粒子的最优位置。并找到其中的最优值，作为全局最优解的初值，并记录其位置</p>
+</li>
+<li><p>更新粒子速度及位置</p>
+</li>
+<li><p>计算更新后粒子的适应值，更新每个粒子的局部最优值以及整个粒子群的全局最优值。</p>
+</li>
+<li><p>重复4~5直至满足迭代结束条件</p>
+</li>
+</ol>
+<p>粒子群算法中的符号说明：</p>
+<ul>
+<li><img src="https://www.zhihu.com/equation?tex=n" srcset="/img/loading.gif" lazyload alt="[公式]"> ：粒子个数</li>
+<li><img src="https://www.zhihu.com/equation?tex=c_1" srcset="/img/loading.gif" lazyload alt="[公式]"> ：粒子的个体学习因子，也称为个体加速因子</li>
+<li><img src="https://www.zhihu.com/equation?tex=c_2" srcset="/img/loading.gif" lazyload alt="[公式]"> ：粒子的社会学习因子，也称为社会加速因子</li>
+<li><img src="https://www.zhihu.com/equation?tex=w" srcset="/img/loading.gif" lazyload alt="[公式]"> ：速度的惯性权重</li>
+<li><img src="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D" srcset="/img/loading.gif" lazyload alt="[公式]"> ：第d次迭代时，第i个粒子的速度</li>
+<li><img src="https://www.zhihu.com/equation?tex=x_%7Bi%7D%5E%7Bd%7D" srcset="/img/loading.gif" lazyload alt="[公式]"> ：第d次迭代时，第i个粒子所在的位置</li>
+<li><img src="https://www.zhihu.com/equation?tex=f%5Cleft(+x+%5Cright)+" srcset="/img/loading.gif" lazyload alt="[公式]"> ：在位置x时的适应度值(一般取目标函数值)</li>
+<li><img src="https://www.zhihu.com/equation?tex=pbest_%7Bi%7D%5E%7Bd%7D" srcset="/img/loading.gif" lazyload alt="[公式]"> ：到第d次迭代为止，第i个粒子经过的最好的位置</li>
+<li><img src="https://www.zhihu.com/equation?tex=gbest%5Ed" srcset="/img/loading.gif" lazyload alt="[公式]"> ：到第d次迭代为止，所有粒子经过的最好的位置</li>
+</ul>
+<h3 id="4-核心公式："><a href="#4-核心公式：" class="headerlink" title="4.核心公式："></a>4.核心公式：</h3><p>粒子群算法最主要是掌握以下公式： 这只鸟第<img src="https://www.zhihu.com/equation?tex=d" srcset="/img/loading.gif" lazyload alt="[公式]">步的速度&#x3D;上一步自身的速度惯性+自我认知部分+社会认知部分 <img src="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=wv_%7Bi%7D%5E%7Bd-1%7D+c_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+c_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>这只鸟第<img src="https://www.zhihu.com/equation?tex=d+1" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置&#x3D;第<img src="https://www.zhihu.com/equation?tex=d" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置+第<img src="https://www.zhihu.com/equation?tex=d" srcset="/img/loading.gif" lazyload alt="[公式]">步所在的位置*运动的时间(每一步运动的时间t一般取1) <img src="https://www.zhihu.com/equation?tex=x_%7Bi%7D%5E%7Bd+1%7D=x_%7Bi%7D%5E%7Bd%7D+v_%7Bi%7D%5E%7Bd%7D%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<h3 id="5-重要参数"><a href="#5-重要参数" class="headerlink" title="5.重要参数"></a>5.重要参数</h3><p><strong>5.1学习因子</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=wv_%7Bi%7D%5E%7Bd-1%7D+%5Cboldsymbol%7Bc%7D_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+%5Cboldsymbol%7Bc%7D_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)+%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>在最初提出粒子群算法的论文中指出，个体学习因子和社会学习因子取2比较合适。</p>
+<p>学习因子也是非负常数，是调整局部最优值和全局最优值权重的参数，如果前者为0说明搜寻过程中没有自身经验只有社会经验，容易陷入局部最优解；若后者为0，即只有社会经验，没有自身经验，常常会陷入局部最优解中，不能飞越该局部最优区域。</p>
+<p><strong>5.2惯性权重</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=v_%7Bi%7D%5E%7Bd%7D=%5Cboldsymbol%7Bw%7Dv_%7Bi%7D%5E%7Bd-1%7D+c_1r_1(pbest_%7Bi%7D%5E%7Bd%7D-x_%7Bi%7D%5E%7Bd%7D)+c_2r_2(gbest%5Ed-x_%7Bi%7D%5E%7Bd%7D)+%5C%5C" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>对算法的收敛起到很大的作用，其值越大，粒子飞跃的范围就越广，更容易找到全局最优，但是也会错失局部搜寻的能力。</p>
+<p>一般来说惯性权重取0.9‐1.2是比较合适的，一般取0.9就行。</p>
+<p><strong>5.3种群数量</strong></p>
+<p>粒子群算法的最大特点就是速度快，因此初始种群取<strong>50-1000</strong>都是可以的，虽然初始种群越大收敛性会更好，不过太大了也会影响速度；</p>
+<p><strong>5.4 迭代次数</strong></p>
+<p>一般取100~4000，太少解不稳定，太多浪费时间。对于复杂问题，进化代数可以相应地提高；</p>
+<p><strong>5.5 空间维数</strong></p>
+<p>粒子搜索的空间维数即为自变量的个数。比如求一元函数的最值就是一维空间，n元函数的最值就是n维空间</p>
+<p><strong>5.6 位置限制</strong></p>
+<p>限制粒子搜索的空间，即自变量的取值范围，对于无约束问题此处可以省略。</p>
+<p><strong>5.7 速度限制</strong></p>
+<p>如果粒子飞行速度过快，很可能直接飞过最优解位置，但是如果飞行速度过慢，会使得收敛速度变慢，因此设置合理的速度限制就很有必要了。</p>
+<h3 id="6-代码实现"><a href="#6-代码实现" class="headerlink" title="6.代码实现"></a>6.代码实现</h3><p><strong>6.1基于numpy</strong></p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs maxima">import numpy as <span class="hljs-built_in">np</span> <br>import <span class="hljs-built_in">random</span> <br><br># pso  <br>def suit(x):<br>    x1, x2=x<br>    <span class="hljs-built_in">return</span> -(x1-<span class="hljs-number">10</span>) ** <span class="hljs-number">2</span> + -(x2 - <span class="hljs-number">3</span>) ** <span class="hljs-number">2</span>  # + -x3 ** <span class="hljs-number">2</span><br><br>def best_p(current_p,person_best): #  <br>    x = <span class="hljs-built_in">np</span>.zeros_like(current_p) <br>    n,d = current_p.shape<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):# 每个粒子比较一次<br>        a = current_p[i]<br>        b = person_best[i]<br>        <span class="hljs-keyword">if</span> suit(b)&gt;suit(a):<br>            x[i] = b<br>        <span class="hljs-keyword">else</span>: x[i]= a<br>    <span class="hljs-built_in">return</span> x <br>        <br>def global_b(person_best): # n*d <br>    n,d= person_best.shape <br>    s = []<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        s.<span class="hljs-built_in">append</span>(suit(person_best[j]))        <br>    i = <span class="hljs-built_in">np</span>.<span class="hljs-built_in">array</span>(s).argmax()<br>    x = <span class="hljs-built_in">np</span>.<span class="hljs-built_in">array</span>(person_best[i])<br>    <span class="hljs-built_in">return</span> x         <br># init  <br>n = <span class="hljs-number">40</span> # 粒子个数<br>d = <span class="hljs-number">2</span><br>current_v =  <span class="hljs-built_in">np</span>.<span class="hljs-built_in">array</span>([[<span class="hljs-built_in">random</span>.randint(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n)]]).reshape(-<span class="hljs-number">1</span>,d)<br>current_p = <span class="hljs-built_in">np</span>.<span class="hljs-built_in">array</span>([[<span class="hljs-built_in">random</span>.randint(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n)]]).reshape(-<span class="hljs-number">1</span>,d)<br>person_best = current_p<br>global_best = global_b(person_best)  <br>T = <span class="hljs-number">0</span>   <br>w=<span class="hljs-number">1</span>   <br><span class="hljs-keyword">while</span>  T&lt;<span class="hljs-number">100000</span>:        <br>    # <span class="hljs-keyword">if</span>  all([current_p[i][<span class="hljs-number">0</span>]==current_p[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(len(current_p))]):<br>    #     <span class="hljs-built_in">print</span>(T,current_p)<br>    #     <span class="hljs-built_in">break</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">sum</span>(person_best.<span class="hljs-built_in">std</span>(axis=<span class="hljs-number">0</span>))&lt;.<span class="hljs-number">1</span>:<br>        <span class="hljs-built_in">break</span>        <br>    <span class="hljs-keyword">else</span>:    <br>        w = w*<span class="hljs-number">0.99996</span>;r1 = <span class="hljs-built_in">random</span>.<span class="hljs-built_in">random</span>(); r2 = <span class="hljs-built_in">random</span>.<span class="hljs-built_in">random</span>()<br>        current_v = w*current_v + r1*(person_best-current_p)+ r1*(global_best - current_p)<br>        #  w = w*<span class="hljs-number">0.999</span><br>        # current_v = w*current_v +(person_best-current_p)+(global_best - current_p)<br>        current_p = current_p + current_v<br>        person_best =  best_p(current_p, person_best)<br>        global_best = global_b(person_best) <br>        #current_v = current_v + <span class="hljs-number">2</span>* (person_best- current_p)+<span class="hljs-number">2</span>*(global_best- current_p)<br>        T+=<span class="hljs-number">1</span> <br><span class="hljs-built_in">print</span>(T, person_best)<br></code></pre></td></tr></table></figure>
+
+<p><strong>6.2 基于sko.pso</strong></p>
+<p>python sko库中包含了常用的启发式算法， 也包含粒子群算法PSO,可以直接调用,非常快捷方便 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sko.PSO <span class="hljs-keyword">import</span> PSO<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">demo_func</span>(<span class="hljs-params">x</span>):<br>    x1, x2, x3 = x<br>    <span class="hljs-keyword">return</span> (x1-<span class="hljs-number">5</span>) ** <span class="hljs-number">2</span> + (x2 - <span class="hljs-number">2</span>) ** <span class="hljs-number">2</span> + (x3-<span class="hljs-number">19</span>) ** <span class="hljs-number">2</span><br>pso = PSO(func=demo_func, dim=<span class="hljs-number">3</span>)<br>fitness = pso.fit()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;best_x is &#x27;</span>, pso.gbest_x, <span class="hljs-string">&#x27;best_y is&#x27;</span>, pso.gbest_y) <br><br>&gt;&gt;&gt;best_x <span class="hljs-keyword">is</span>  [ <span class="hljs-number">4.99981675</span>  <span class="hljs-number">2.00044853</span> <span class="hljs-number">18.99955148</span>] best_y <span class="hljs-keyword">is</span> [<span class="hljs-number">4.35931123e-07</span>]<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">#数学建模</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>粒子群算法</div>
+      <div>http://example.com/2022/07/24/粒子群算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月24日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/24/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" title="遗传算法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">遗传算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/17/OS-Lab4-challenge/" title="OS-Lab4-challenge">
+                        <span class="hidden-mobile">OS-Lab4-challenge</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/metowolf/Metingjs@1.2/dist/Meting.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

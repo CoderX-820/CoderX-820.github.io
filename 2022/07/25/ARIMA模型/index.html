@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/pic/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wei Xia">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一种来源于固体退火原理的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARIMA模型">
+<meta property="og:url" content="http://example.com/2022/07/25/ARIMA%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Felix&#39;s blog">
+<meta property="og:description" content="一种来源于固体退火原理的算法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-ea33bb159d8fe9ccea6db91abca5bcfd_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-02a2e7f662589f35bea3020d36f107a2_720w.jpg">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWUzYjIzYjEwMGRiZTgxZjMucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWEzMzI4NGQ1ZDc5MWEwZDgucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWY0NGJjMjgxYmQ1YTkzMjMucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWZmZmQ5MmEzMGQwNjg5MzEucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTRhZjYwZGVkZjlmODZlMGYucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWIyYzdkYzk0Zjc4MTE3NjMucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWMwZTRmZTFkMmVjY2E3MGIucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTg2YTMyOWE0NDVmOGVhYjcucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWM4N2VjZWM4ZjBkZjZiZmEucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWEyZTZjNjM1ZWRjNTNiMTYucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTE5YTFjMDZiZTA0Mjc5NmMucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTA1ZDU1ZGI2M2VhNDdiNzIucG5n?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2022-07-25T13:19:48.000Z">
+<meta property="article:modified_time" content="2022-07-25T13:44:04.297Z">
+<meta property="article:author" content="Wei Xia">
+<meta property="article:tag" content="数学建模">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic2.zhimg.com/80/v2-ea33bb159d8fe9ccea6db91abca5bcfd_720w.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ARIMA模型 - Felix&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Felix&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-notebook"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-th-large"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/pic/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ARIMA模型"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-25 21:19" pubdate>
+          星期一, 七月 25日 2022, 9:19 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ARIMA模型</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ARIMA预测模型"><a href="#ARIMA预测模型" class="headerlink" title="ARIMA预测模型"></a>ARIMA预测模型</h1><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>​      ARIMA模型全称为自回归移动平均模型(Autoregressive Integrated Moving Average Model,简记ARIMA)，是由博克思(Box)和詹金斯(Jenkins)于70年代初提出的一著名时间序列预测方法，所以又称为box-jenkins模型、博克思-詹金斯法。其中ARIMA（p，d，q）称为差分自回归移动平均模型，AR是自回归, p为自回归项; MA为移动平均，q为移动平均项数，d为时间序列成为平稳时所做的差分次数。</p>
+<h3 id="2-基本思想"><a href="#2-基本思想" class="headerlink" title="2.基本思想"></a>2.基本思想</h3><p>　 ARIMA模型的基本思想是：将预测对象随时间推移而形成的数据序列视为一个随机序列，用一定的数学模型来近似描述这个序列。这个模型一旦被识别后就可以从时间序列的过去值及现在值来预测未来值。现代统计方法、计量经济模型在某种程度上已经能够帮助企业对未来进行预测。</p>
+<p>ARIMA(p，d，q)模型可以表示为：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-ea33bb159d8fe9ccea6db91abca5bcfd_720w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中L是滞后算子（Lag operator），</p>
+<p><img src="https://pic3.zhimg.com/80/v2-02a2e7f662589f35bea3020d36f107a2_720w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>ARIMA模型含有三个参数：p,d,q。</p>
+<p>p–代表预测模型中采用的时序数据本身的滞后数(lags) ,也叫做AR&#x2F;Auto-Regressive项</p>
+<p>d–代表时序数据需要进行几阶差分化，才是稳定的，也叫Integrated项。</p>
+<p>q–代表预测模型中采用的预测误差的滞后数(lags)，也叫做MA&#x2F;Moving Average项</p>
+<p><strong>2.1参数d的确认</strong></p>
+<p>d就是差分的阶数，首先通过ADF检验，看原时间序列的平稳性，如果原时间序列是平稳的，那么d&#x3D;0；</p>
+<p>如果原数据不平稳，那么做差分，通过ADF检验直到时间序列平稳。一般差分次数不超过2次。</p>
+<p><strong>2.2参数p、q的确认</strong></p>
+<p>通常在时间序列分析中，采用自相关函数（ACF）、偏自相关函数（PACF）来判别ARMA(p,q)模型的系数和阶数。自相关函数(ACF)描述时间序列观测值与其过去的观测值之间的线性相关性。偏自相关函数(PACF)描述在</p>
+<p>给定中间观测值的条件下时间序列观测值与其过去的观测值之间的线性相关性。</p>
+<h3 id="3-ARIMA模型介绍"><a href="#3-ARIMA模型介绍" class="headerlink" title="3.ARIMA模型介绍"></a>3.ARIMA模型介绍</h3><h4 id="3-1自回归模型AR"><a href="#3-1自回归模型AR" class="headerlink" title="3.1自回归模型AR"></a>3.1自回归模型AR</h4><p>自回归模型描述当前值与历史值之间的关系，用变量自身的历史时间数据对自身进行预测。自回归模型必须满足平稳性的要求。</p>
+<p>自回归模型首先需要确定一个阶数p，表示用几期的历史值来预测当前值。p阶自回归模型的公式定义为：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWUzYjIzYjEwMGRiZTgxZjMucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>上式中yt是当前值,u是常数项,p是阶数 ri是自相关系数,et是误差。</p>
+<p>自回归模型有很多的限制：<br>1、自回归模型是用自身的数据进行预测<br>2、时间序列数据必须具有平稳性<br>3、自回归只适用于预测与自身前期相关的现象</p>
+<h4 id="3-2移动平均模型MA"><a href="#3-2移动平均模型MA" class="headerlink" title="3.2移动平均模型MA"></a>3.2移动平均模型MA</h4><p>移动平均模型关注的是自回归模型中的误差项的累加 ，q阶自回归过程的公式定义如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWEzMzI4NGQ1ZDc5MWEwZDgucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>移动平均法能有效地消除预测中的随机波动。</p>
+<h4 id="3-3自回归移动平均模型ARMA"><a href="#3-3自回归移动平均模型ARMA" class="headerlink" title="3.3自回归移动平均模型ARMA"></a>3.3自回归移动平均模型ARMA</h4><p>自回归模型AR和移动平均模型MA模型相结合，我们就得到了自回归移动平均模型ARMA(p,q)，计算公式如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWY0NGJjMjgxYmQ1YTkzMjMucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="3-4差分自回归移动平均模型ARIMA"><a href="#3-4差分自回归移动平均模型ARIMA" class="headerlink" title="3.4差分自回归移动平均模型ARIMA"></a>3.4差分自回归移动平均模型ARIMA</h4><p>将自回归模型、移动平均模型和差分法结合，我们就得到了差分自回归移动平均模型ARIMA(p,d,q)，其中d是需要对数据进行差分的阶数。</p>
+<h3 id="4-建立ARIMA模型的过程"><a href="#4-建立ARIMA模型的过程" class="headerlink" title="4.建立ARIMA模型的过程"></a>4.建立ARIMA模型的过程</h3><p>一般来说，建立ARIMA模型一般有三个阶段，分别是模型识别和定阶、参数估计和模型检验，接下来，我们一步步来介绍：</p>
+<h4 id="4-1-模型识别和定阶"><a href="#4-1-模型识别和定阶" class="headerlink" title="4.1 模型识别和定阶"></a>4.1 模型识别和定阶</h4><p>模型的识别问题和定阶问题，主要是确定p，d，q三个参数，差分的阶数d一般通过观察图示，1阶或2阶即可。这里我们主要介绍p和q的确定。我们首先介绍两个函数。</p>
+<p><strong>自相关函数ACF(autocorrelation function)</strong><br>自相关函数ACF描述的是时间序列观测值与其过去的观测值之间的线性相关性。计算公式如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWZmZmQ5MmEzMGQwNjg5MzEucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中k代表滞后期数，如果k&#x3D;2，则代表yt和yt-2</p>
+<p><strong>偏自相关函数PACF(partial autocorrelation function)</strong><br>偏自相关函数PACF描述的是在给定中间观测值的条件下，时间序列观测值预期过去的观测值之间的线性相关性。</p>
+<p>举个简单的例子，假设k&#x3D;3，那么我们描述的是yt和yt-3之间的相关性，但是这个相关性还受到yt-1和yt-2的影响。PACF剔除了这个影响，而ACF包含这个影响。</p>
+<p><strong>拖尾和截尾</strong><br>拖尾指序列以指数率单调递减或震荡衰减，而截尾指序列从某个时点变得非常小：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTRhZjYwZGVkZjlmODZlMGYucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>出现以下情况，通常视为(偏)自相关系数d阶截尾：<br>1）在最初的d阶明显大于2倍标准差范围<br>2）之后几乎95%的(偏)自相关系数都落在2倍标准差范围以内<br>3）且由非零自相关系数衰减为在零附近小值波动的过程非常突然</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWIyYzdkYzk0Zjc4MTE3NjMucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>出现以下情况，通常视为(偏)自相关系数拖尾：<br>1）如果有超过5%的样本(偏)自相关系数都落入2倍标准差范围之外<br>2）或者是由显著非0的(偏)自相关系数衰减为小值波动的过程比较缓慢或非常连续。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWMwZTRmZTFkMmVjY2E3MGIucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>p，q阶数的确定</strong><br>根据刚才判定截尾和拖尾的准则，p，q的确定基于如下的规则：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTg2YTMyOWE0NDVmOGVhYjcucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>根据不同的截尾和拖尾的情况，我们可以选择AR模型，也可以选择MA模型，当然也可以选择ARIMA模型。接下来，我们就来画一下我们数据的拖尾和截尾情况:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> statsmodels.<span class="hljs-property">api</span> <span class="hljs-keyword">as</span> sm<br>fig = plt.<span class="hljs-title function_">figure</span>(figsize=(<span class="hljs-number">12</span>,<span class="hljs-number">8</span>))<br> <br>ax1 = fig.<span class="hljs-title function_">add_subplot</span>(<span class="hljs-number">211</span>)<br>fig = sm.<span class="hljs-property">graphics</span>.<span class="hljs-property">tsa</span>.<span class="hljs-title function_">plot_acf</span>(train, lags=<span class="hljs-number">20</span>,ax=ax1)<br>ax1.<span class="hljs-property">xaxis</span>.<span class="hljs-title function_">set_ticks_position</span>(<span class="hljs-string">&#x27;bottom&#x27;</span>)<br>fig.<span class="hljs-title function_">tight_layout</span>()<br> <br>ax2 = fig.<span class="hljs-title function_">add_subplot</span>(<span class="hljs-number">212</span>)<br>fig = sm.<span class="hljs-property">graphics</span>.<span class="hljs-property">tsa</span>.<span class="hljs-title function_">plot_pacf</span>(train, lags=<span class="hljs-number">20</span>, ax=ax2)<br>ax2.<span class="hljs-property">xaxis</span>.<span class="hljs-title function_">set_ticks_position</span>(<span class="hljs-string">&#x27;bottom&#x27;</span>)<br>fig.<span class="hljs-title function_">tight_layout</span>()<br>plt.<span class="hljs-title function_">show</span>()<br></code></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWM4N2VjZWM4ZjBkZjZiZmEucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>哈哈，咱们这个数据自相关系数4阶拖尾，偏自相关系数2阶截尾，因此可以选择的是AR(2)模型。</p>
+<h4 id="4-2-参数估计"><a href="#4-2-参数估计" class="headerlink" title="4.2 参数估计"></a>4.2 参数估计</h4><p>通过拖尾和截尾对模型进行定阶的方法，往往具有很强的主观性。回想我们之前在参数预估的时候往往是怎么做的，不就是损失和正则项的加权么？我们这里能不能结合最终的预测误差来确定p，q的阶数呢？在相同的预测误差情况下，根据奥斯卡姆剃刀准则，模型越小是越好的。那么，平衡预测误差和参数个数，我们可以根据信息准则函数法，来确定模型的阶数。预测误差通常用平方误差即残差平方和来表示。</p>
+<p>常用的信息准则函数法有下面几种：<br><strong>AIC准则</strong><br>AIC准则全称为全称是最小化信息量准则（Akaike Information Criterion），计算公式如下：<br>AIC &#x3D; &#x3D;2 *（模型参数的个数）-2ln（模型的极大似然函数）</p>
+<p><strong>BIC准则</strong><br>AIC准则存在一定的不足之处。当样本容量很大时，在AIC准则中拟合误差提供的信息就要受到样本容量的放大，而参数个数的惩罚因子却和样本容量没关系（一直是2），因此当样本容量很大时，使用AIC准则选择的模型不收敛与真实模型，它通常比真实模型所含的未知参数个数要多。BIC（Bayesian InformationCriterion）贝叶斯信息准则弥补了AIC的不足，计算公式如下：</p>
+<p>BIC &#x3D; ln(n) * (模型中参数的个数) - 2ln(模型的极大似然函数值)，n是样本容量</p>
+<p>好了，我们通过类似于网格搜索的方式来寻找我们模型最佳的p，q组合吧，这里我们使用BIC进行试验，AIC同理:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#遍历，寻找适宜的参数</span><br><span class="hljs-keyword">import</span> itertools<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br> <br>p_min = <span class="hljs-number">0</span><br>d_min = <span class="hljs-number">0</span><br>q_min = <span class="hljs-number">0</span><br>p_max = <span class="hljs-number">5</span><br>d_max = <span class="hljs-number">0</span><br>q_max = <span class="hljs-number">5</span><br> <br><span class="hljs-comment"># Initialize a DataFrame to store the results,，以BIC准则</span><br>results_bic = pd.DataFrame(index=[<span class="hljs-string">&#x27;AR&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(p_min,p_max+<span class="hljs-number">1</span>)],<br>                           columns=[<span class="hljs-string">&#x27;MA&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(q_min,q_max+<span class="hljs-number">1</span>)])<br> <br><span class="hljs-keyword">for</span> p,d,q <span class="hljs-keyword">in</span> itertools.product(<span class="hljs-built_in">range</span>(p_min,p_max+<span class="hljs-number">1</span>),<br>                               <span class="hljs-built_in">range</span>(d_min,d_max+<span class="hljs-number">1</span>),<br>                               <span class="hljs-built_in">range</span>(q_min,q_max+<span class="hljs-number">1</span>)):<br>    <span class="hljs-keyword">if</span> p==<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> d==<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> q==<span class="hljs-number">0</span>:<br>        results_bic.loc[<span class="hljs-string">&#x27;AR&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(p), <span class="hljs-string">&#x27;MA&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(q)] = np.nan<br>        <span class="hljs-keyword">continue</span><br> <br>    <span class="hljs-keyword">try</span>:<br>        model = sm.tsa.ARIMA(train, order=(p, d, q),<br>                               <span class="hljs-comment">#enforce_stationarity=False,</span><br>                               <span class="hljs-comment">#enforce_invertibility=False,</span><br>                              )<br>        results = model.fit()<br>        results_bic.loc[<span class="hljs-string">&#x27;AR&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(p), <span class="hljs-string">&#x27;MA&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(q)] = results.bic<br>    <span class="hljs-keyword">except</span>:<br>        <span class="hljs-keyword">continue</span><br>results_bic = results_bic[results_bic.columns].astype(<span class="hljs-built_in">float</span>)<br> <br>fig, ax = plt.subplots(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">8</span>))<br>ax = sns.heatmap(results_bic,<br>                 mask=results_bic.isnull(),<br>                 ax=ax,<br>                 annot=<span class="hljs-literal">True</span>,<br>                 fmt=<span class="hljs-string">&#x27;.2f&#x27;</span>,<br>                 )<br>ax.set_title(<span class="hljs-string">&#x27;BIC&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p>绘制的热力图如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LWEyZTZjNjM1ZWRjNTNiMTYucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>我们上面采用了循环的方式，其实可以用更简单的方法得到p和q的最优值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train_results = sm.tsa.arma_order_select_ic(train, ic=[<span class="hljs-string">&#x27;aic&#x27;</span>, <span class="hljs-string">&#x27;bic&#x27;</span>], trend=<span class="hljs-string">&#x27;nc&#x27;</span>, max_ar=<span class="hljs-number">8</span>, max_ma=<span class="hljs-number">8</span>)<br> <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;AIC&#x27;</span>, train_results.aic_min_order)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;BIC&#x27;</span>, train_results.bic_min_order)<br></code></pre></td></tr></table></figure>
+
+<p>结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">AIC (1, 0)<br>BIC (1, 0)<br></code></pre></td></tr></table></figure>
+
+<p>表明我们应该选择AR(1)模型。</p>
+<p>一般来说，BIC准则得到的ARMA模型的阶数较AIC的低。</p>
+<h4 id="4-3-模型检验"><a href="#4-3-模型检验" class="headerlink" title="4.3 模型检验"></a>4.3 模型检验</h4><p>这里的模型检验主要有两个：<br>1）检验参数估计的显著性（t检验）<br>2）检验残差序列的随机性，即残差之间是独立的</p>
+<p>残差序列的随机性可以通过自相关函数法来检验，即做残差的自相关函数图：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs r">model <span class="hljs-operator">=</span> sm.tsa.ARIMA<span class="hljs-punctuation">(</span>train<span class="hljs-punctuation">,</span> order<span class="hljs-operator">=</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>results <span class="hljs-operator">=</span> model.fit<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>resid <span class="hljs-operator">=</span> results.resid <span class="hljs-comment">#赋值</span><br>fig <span class="hljs-operator">=</span> plt.figure<span class="hljs-punctuation">(</span>figsize<span class="hljs-operator">=</span><span class="hljs-punctuation">(</span><span class="hljs-number">12</span><span class="hljs-punctuation">,</span><span class="hljs-number">8</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>fig <span class="hljs-operator">=</span> sm.graphics.tsa.plot_acf<span class="hljs-punctuation">(</span>resid.values.squeeze<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> lags<span class="hljs-operator">=</span><span class="hljs-number">40</span><span class="hljs-punctuation">)</span><br>plt.show<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTE5YTFjMDZiZTA0Mjc5NmMucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这里很明显的检测是通过的。</p>
+<h4 id="4-4-模型预测"><a href="#4-4-模型预测" class="headerlink" title="4.4 模型预测"></a>4.4 模型预测</h4><p>预测主要有两个函数，一个是predict函数，一个是forecast函数，predict中进行预测的时间段必须在我们训练ARIMA模型的数据中，forecast则是对训练数据集末尾下一个时间段的值进行预估。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql">model <span class="hljs-operator">=</span> sm.tsa.ARIMA(sub, <span class="hljs-keyword">order</span><span class="hljs-operator">=</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>results <span class="hljs-operator">=</span> model.fit()<br>predict_sunspots <span class="hljs-operator">=</span> results.predict(<span class="hljs-keyword">start</span><span class="hljs-operator">=</span>str(<span class="hljs-string">&#x27;2014-04&#x27;</span>),<span class="hljs-keyword">end</span><span class="hljs-operator">=</span>str(<span class="hljs-string">&#x27;2014-05&#x27;</span>),<span class="hljs-keyword">dynamic</span><span class="hljs-operator">=</span><span class="hljs-literal">False</span>)<br>print(predict_sunspots)<br>fig, ax <span class="hljs-operator">=</span> plt.subplots(figsize<span class="hljs-operator">=</span>(<span class="hljs-number">12</span>, <span class="hljs-number">8</span>))<br>ax <span class="hljs-operator">=</span> sub.plot(ax<span class="hljs-operator">=</span>ax)<br>predict_sunspots.plot(ax<span class="hljs-operator">=</span>ax)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80MTU1OTg2LTA1ZDU1ZGI2M2VhNDdiNzIucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" lazyload alt="img"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">#数学建模</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ARIMA模型</div>
+      <div>http://example.com/2022/07/25/ARIMA模型/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wei Xia</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月25日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/25/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" title="BP神经网络模型">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BP神经网络模型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/25/%E8%9A%81%E7%BE%A4%E7%AE%97%E6%B3%95/" title="蚁群算法">
+                        <span class="hidden-mobile">蚁群算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+         
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+         
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/metowolf/Metingjs@1.2/dist/Meting.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
